@@ -10,8 +10,17 @@
     "url": "ssh://git@git.codecube.xyz:7999/web/generator-reackt.git"
   },
   "keywords": [
-    "yeoman-generator"
+    "yeoman-generator",
+    "generator",
+    "scaffold",
+    "frontend",
+    "reactjs",
+    "webpack",
+    "redux"
   ],
+  "engines": {
+    "node": ">=10.0.0"
+  },
   "author": "ayan4m1 <andrew@bulletlogic.com>",
   "license": "MIT",
   "dependencies": {
