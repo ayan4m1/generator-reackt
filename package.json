@@ -1,0 +1,18 @@
+{
+  "name": "generator-reackt",
+  "version": "0.1.0",
+  "description": "Create an opinionated React-based web applcication",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@git.codecube.xyz:7999/web/generator-reackt.git"
+  },
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "author": "ayan4m1 <andrew@bulletlogic.com>",
+  "license": "MIT"
+}
