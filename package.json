@@ -24,6 +24,24 @@
   "author": "ayan4m1 <andrew@bulletlogic.com>",
   "license": "MIT",
   "dependencies": {
+    "chalk": "^2.4.1",
     "yeoman-generator": "^3.1.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.0",
+    "@babel/preset-env": "^7.2.0",
+    "@babel/register": "^7.0.0",
+    "babel-eslint": "^10.0.1",
+    "del": "^3.0.0",
+    "eslint": "^5.10.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "gulp": "^4.0.0",
+    "gulp-babel": "^8.0.0",
+    "gulp-eslint": "^5.0.0",
+    "husky": "^1.2.0",
+    "lint-staged": "^8.1.0",
+    "prettier": "^1.15.3",
+    "prettier-eslint": "^8.8.2"
   }
 }
