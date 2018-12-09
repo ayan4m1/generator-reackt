@@ -1,0 +1,9 @@
+{
+    "name": "<%= package.name %>",
+    "version": "<%= package.version %>",
+    "description": "<%= package.description %>",
+    "author": "<%= author.name %> <<%= author.email %>>",
+    "license": "<%= package.license %>",
+    "dependencies": { },
+    "devDependencies": { }
+}
