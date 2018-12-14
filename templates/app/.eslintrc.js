@@ -12,8 +12,10 @@ module.exports = {
     "import",
     "react",
     "prettier",
-    "jsx-a11y",
-    "jest"
+    <% if (flags.addJest) { %>
+    "jest",
+    <% } %>
+    "jsx-a11y"
   ],
   "extends": [
     "eslint:recommended",

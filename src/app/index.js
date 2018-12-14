@@ -1,5 +1,5 @@
-/* eslint-disable no-underscore-dangle */
 import path from 'path';
+import mkdirp from 'mkdirp';
 import { format } from 'date-fns';
 import request from 'request-promise-native';
 import spdxIdentifiers from 'spdx-license-ids';
@@ -13,6 +13,7 @@ const Generator = require('yeoman-generator');
 
 // define a list of Sass-capable CSS frameworks
 const styleFrameworks = [
+  { value: null, name: 'None' },
   { value: 'bootstrap', name: 'Bootstrap' },
   { value: 'uikit', name: 'UIKit' },
   { value: 'foundation', name: 'Foundation' },
@@ -86,10 +87,10 @@ const files = {
     '.babelrc',
     '.gitignore',
     '.prettierrc',
-    '.eslintrc.js',
     '.stylelintrc',
     'webpack.config.babel.js'
   ],
+  templated: ['.eslintrc.js', 'package.json', 'src/index.js', 'src/index.scss'],
   jest: ['jest.config.js'],
   lintStaged: ['.huskyrc', '.lintstagedrc']
 };
@@ -111,7 +112,28 @@ export default class extends Generator {
       require('inquirer-autocomplete-prompt')
     );
     this.sourceRoot(path.join(__dirname, '..', '..', 'templates', 'app'));
-    this._directCopy = this._directCopy.bind(this);
+
+    this.answers = {};
+    this.fileSystem = {
+      copy: file => {
+        this.fs.copy(
+          this.templatePath(file),
+          this.destinationPath(file),
+          this.answers
+        );
+      },
+      copyTemplate: file => {
+        this.fs.copyTpl(
+          this.templatePath(file),
+          this.destinationPath(file),
+          this.answers
+        );
+      },
+      createFile: (file, contents) => {
+        this.fs.write(this.destinationPath(file), contents);
+      },
+      makeDirectory: mkdirp
+    };
   }
 
   async prompting() {
@@ -216,18 +238,19 @@ export default class extends Generator {
         .replace('<year>', format(new Date(), 'YYYY'))
         .replace('<copyright holders>', `${name} <${email}>`);
     }
-    this.fs.write('LICENSE', licenseText);
+    this.fileSystem.createFile('LICENSE', licenseText);
 
-    this.fs.copyTpl(
-      this.templatePath('package.json'),
-      this.destinationPath('package.json'),
-      this.answers
-    );
+    files.templated.forEach(this.fileSystem.copyTemplate);
+    files.core.forEach(this.fileSystem.copy);
 
-    files.core.forEach(this._directCopy);
+    await this.fileSystem.makeDirectory(this.destinationPath('src/components'));
+
+    if (flags.addRedux) {
+      await this.fileSystem.makeDirectory(this.destinationPath('src/modules'));
+    }
 
     if (flags.addJest) {
-      files.jest.forEach(this._directCopy);
+      files.jest.forEach(this.fileSystem.copy);
       this.fs.append(this.destinationPath('.gitignore'), 'coverage/');
       this.fs.extendJSON(this.destinationPath('package.json'), {
         scripts: {
@@ -246,43 +269,48 @@ export default class extends Generator {
     }
 
     if (flags.addLintStaged) {
-      files.lintStaged.forEach(this._directCopy);
+      files.lintStaged.forEach(this.fileSystem.copy);
     }
   }
 
   install() {
     const main = [];
-    const dev = packages.dev;
+    const dev = [];
     const { flags, styleFramework } = this.answers;
 
-    main.push.apply(packages.core);
-    main.push.apply(packages[styleFramework]);
+    main.push.apply(main, packages.core);
+    dev.push.apply(dev, packages.dev);
+
+    if (styleFramework !== null) {
+      main.push.apply(main, packages[styleFramework]);
+    }
 
     if (flags.addLintStaged) {
-      dev.push.apply(packages.lintStaged);
+      dev.push.apply(dev, packages.lintStaged);
     }
 
     if (flags.addFontAwesome) {
-      main.push.apply(packages.fontAwesome);
+      main.push.apply(main, packages.fontAwesome);
     }
 
     if (flags.addRedux) {
-      main.push.apply(packages.redux);
+      main.push.apply(main, packages.redux);
     }
 
     if (flags.addJest) {
-      main.push.apply(packages.jest);
+      dev.push.apply(dev, packages.jest);
     }
 
     if (flags.addESDoc) {
-      main.push.apply(packages.esdoc);
+      main.push.apply(main, packages.esdoc);
     }
 
+    this.log(
+      `Getting ready to install ${main.length} dependencies and ${
+        dev.length
+      } dev dependencies.`
+    );
     this.npmInstall(main, { save: true });
     this.npmInstall(dev, { 'save-dev': true });
-  }
-
-  _directCopy(file) {
-    this.fs.copy(this.templatePath(file), this.destinationPath(file));
   }
 }
