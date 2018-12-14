@@ -16,7 +16,6 @@ const styleFrameworks = [
   { value: 'bootstrap', name: 'Bootstrap' },
   { value: 'uikit', name: 'UIKit' },
   { value: 'foundation', name: 'Foundation' },
-  { value: 'semantic-ui', name: 'Semantic UI' },
   { value: 'materialize', name: 'Materialize' }
 ];
 const packages = {
@@ -28,7 +27,6 @@ const packages = {
   bootstrap: ['bootstrap'],
   uikit: ['uikit'],
   foundation: ['foundation-sites'],
-  'semantic-ui': ['semantic-ui'],
   materialize: ['materialize-css'],
   lintStaged: ['husky', 'lint-staged'],
   redux: ['redux', 'react-redux', 'redux-saga'],
