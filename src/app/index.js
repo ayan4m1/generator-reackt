@@ -11,7 +11,6 @@ spdxIdentifiers.sort();
 // module.exports - no default export nor a named export is present for us to use
 const Generator = require('yeoman-generator');
 
-// define a list of Sass-capable CSS frameworks
 const styleFrameworks = [
   { value: null, name: 'None' },
   { value: 'bootstrap', name: 'Bootstrap' },
