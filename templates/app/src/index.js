@@ -14,7 +14,7 @@ import { applyMiddleware, createStore, compose } from 'redux';
 <% } %>
 
 import './index.scss';
-import App from './containers/App';
+import App from './components/App';
 <% if (flags.addRedux) { %>
 import rootSaga from './sagas';
 import rootReducer from './reducers';
