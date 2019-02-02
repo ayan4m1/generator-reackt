@@ -231,6 +231,7 @@ export default class extends Generator {
     let licenseText = 'Place your license here.\n';
 
     if (license !== 'SEE LICENSE IN LICENSE') {
+      this.log(`Downloading ${license} from spdx/license-list-data...`);
       const rawLicense = await request(
         `https://raw.githubusercontent.com/spdx/license-list-data/master/text/${license}.txt`
       );
@@ -278,6 +279,8 @@ export default class extends Generator {
     const main = [];
     const dev = [];
     const { flags, styleFramework } = this.answers;
+
+    this.log('Building a list of packages to install');
 
     main.push.apply(main, packages.core);
     dev.push.apply(dev, packages.dev);
