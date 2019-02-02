@@ -9,4 +9,7 @@
 @import "~foundation-sites/scss/foundation";
 <% } else if (styleFramework === 'materialize') { %>
 @import "~materialize-css/sass/materialize";
+<% } else if (styleFramework === 'bulma') { %>
+@charset "utf-8";
+@import "~bulma/bulma";
 <% } %>

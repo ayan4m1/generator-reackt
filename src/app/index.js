@@ -14,9 +14,10 @@ const Generator = require('yeoman-generator');
 const styleFrameworks = [
   { value: null, name: 'None' },
   { value: 'bootstrap', name: 'Bootstrap' },
-  { value: 'uikit', name: 'UIKit' },
+  { value: 'bulma', name: 'Bulma' },
   { value: 'foundation', name: 'Foundation' },
-  { value: 'materialize', name: 'Materialize' }
+  { value: 'materialize', name: 'Materialize' },
+  { value: 'uikit', name: 'UIKit' }
 ];
 const packages = {
   fontAwesome: [
@@ -28,6 +29,7 @@ const packages = {
   uikit: ['uikit'],
   foundation: ['foundation-sites'],
   materialize: ['materialize-css'],
+  bulma: ['bulma'],
   lintStaged: ['husky', 'lint-staged'],
   redux: ['redux', 'react-redux', 'redux-saga'],
   core: ['normalize-scss', 'prop-types', 'react', 'react-dom', 'reselect'],
