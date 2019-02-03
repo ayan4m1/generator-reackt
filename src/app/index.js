@@ -1,4 +1,4 @@
-import path from 'path';
+import { join } from 'path';
 import mkdirp from 'mkdirp';
 import { format } from 'date-fns';
 import request from 'request-promise-native';
@@ -10,6 +10,8 @@ spdxIdentifiers.sort();
 // we cannot use ES6 imports on this object, as it directly exports a class to
 // module.exports - no default export nor a named export is present for us to use
 const Generator = require('yeoman-generator');
+
+const src = (...paths) => join('src', ...paths);
 
 const styleFrameworks = [
   { value: null, name: 'None' },
@@ -89,11 +91,21 @@ const files = {
     '.gitignore',
     '.prettierrc',
     '.stylelintrc',
+    src('utils', 'index.js'),
     'webpack.config.babel.js'
   ],
-  templated: ['.eslintrc.js', 'package.json', 'src/index.js', 'src/index.scss'],
+  templated: [
+    '.eslintrc.js',
+    'package.json',
+    src('index.js'),
+    src('index.scss')
+  ],
   jest: ['jest.config.js'],
   lintStaged: ['.huskyrc', '.lintstagedrc']
+};
+const directories = {
+  redux: [src('reducers'), src('sagas')],
+  core: [src('components'), src('utils')]
 };
 const scripts = {
   esdoc: {
@@ -112,14 +124,17 @@ export default class extends Generator {
       'autocomplete',
       require('inquirer-autocomplete-prompt')
     );
-    this.sourceRoot(path.join(__dirname, '..', '..', 'templates', 'app'));
+    this.sourceRoot(join(__dirname, '..', '..', 'templates', 'app'));
 
     this.answers = {};
     this.fileSystem = {
       copy: file => {
-        this.fs.copy(
-          this.templatePath(file),
-          this.destinationPath(file),
+        this.fs.copy(this.templatePath(file), this.destinationPath(file));
+      },
+      copyDirectory: async dir => {
+        this.fs.copyTpl(
+          this.templatePath(`${dir}/**/*`),
+          this.destinationPath(dir),
           this.answers
         );
       },
@@ -224,14 +239,16 @@ export default class extends Generator {
   }
 
   async writing() {
-    const { author, flags } = this.answers;
-    const { name, email } = author;
-    const { license } = this.answers.package;
+    const {
+      flags,
+      package: { license },
+      author: { name, email }
+    } = this.answers;
 
     let licenseText = 'Place your license here.\n';
 
     if (license !== 'SEE LICENSE IN LICENSE') {
-      this.log(`Downloading ${license} from spdx/license-list-data...`);
+      this.log(`Downloading ${license} license from spdx/license-list-data...`);
       const rawLicense = await request(
         `https://raw.githubusercontent.com/spdx/license-list-data/master/text/${license}.txt`
       );
@@ -245,10 +262,11 @@ export default class extends Generator {
     files.templated.forEach(this.fileSystem.copyTemplate);
     files.core.forEach(this.fileSystem.copy);
 
-    await this.fileSystem.makeDirectory(this.destinationPath('src/components'));
+    this.fileSystem.makeDirectory(src('selectors'));
+    directories.core.forEach(this.fileSystem.copyDirectory);
 
     if (flags.addRedux) {
-      await this.fileSystem.makeDirectory(this.destinationPath('src/modules'));
+      directories.redux.forEach(this.fileSystem.copyDirectory);
     }
 
     if (flags.addJest) {
