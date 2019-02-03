@@ -98,6 +98,7 @@ const files = {
     '.eslintrc.js',
     'package.json',
     src('index.js'),
+    src('index.html'),
     src('index.scss')
   ],
   jest: ['jest.config.js'],
