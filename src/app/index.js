@@ -105,7 +105,7 @@ const files = {
   lintStaged: ['.huskyrc', '.lintstagedrc']
 };
 const directories = {
-  redux: [src('reducers'), src('sagas')],
+  redux: [src('reducers'), src('sagas'), src('selectors')],
   core: [src('components'), src('utils')]
 };
 const scripts = {
@@ -260,10 +260,9 @@ export default class extends Generator {
     }
     this.fileSystem.createFile('LICENSE', licenseText);
 
-    files.templated.forEach(this.fileSystem.copyTemplate);
+    // copy files and directories
     files.core.forEach(this.fileSystem.copy);
-
-    this.fileSystem.makeDirectory(src('selectors'));
+    files.templated.forEach(this.fileSystem.copyTemplate);
     directories.core.forEach(this.fileSystem.copyDirectory);
 
     if (flags.addRedux) {
