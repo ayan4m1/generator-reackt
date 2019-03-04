@@ -178,7 +178,7 @@ module.exports = {
   },
   "settings": {
     "react": {
-      "version": "16.6.0"
+      "version": "detect"
     },
     "import/resolver": {
       "webpack": {
