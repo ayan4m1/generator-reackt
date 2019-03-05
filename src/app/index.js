@@ -91,6 +91,7 @@ const files = {
     '.gitignore',
     '.prettierrc',
     '.stylelintrc',
+    '.editorconfig',
     src('utils', 'index.js'),
     'webpack.config.babel.js'
   ],
