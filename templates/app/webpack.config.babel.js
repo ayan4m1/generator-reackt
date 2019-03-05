@@ -64,7 +64,7 @@ export default {
     chunkFilename: '[name].js'
   },
   plugins: [
-    new CleanPlugin(['dist']),
+    new CleanPlugin(),
     new StylelintPlugin({
       configFile: '.stylelintrc',
       context: 'src',
