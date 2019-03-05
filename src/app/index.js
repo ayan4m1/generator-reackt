@@ -41,7 +41,7 @@ const packages = {
     'esdoc-jsx-plugin',
     'esdoc-standard-plugin'
   ],
-  jest: ['babel-core@^7.0.0-0', 'babel-jest', 'eslint-plugin-jest', 'jest'],
+  jest: ['babel-jest', 'eslint-plugin-jest', 'jest'],
   dev: [
     '@babel/core',
     '@babel/plugin-proposal-class-properties',
