@@ -34,6 +34,7 @@ const packages = {
   bulma: ['bulma'],
   lintStaged: ['husky', 'lint-staged'],
   redux: ['redux', 'react-redux', 'redux-saga'],
+  reduxJest: ['redux-mock-store'],
   core: ['normalize-scss', 'prop-types', 'react', 'react-dom', 'reselect'],
   esdoc: [
     'esdoc',
@@ -41,7 +42,7 @@ const packages = {
     'esdoc-jsx-plugin',
     'esdoc-standard-plugin'
   ],
-  jest: ['babel-jest', 'eslint-plugin-jest', 'jest'],
+  jest: ['babel-jest', 'eslint-plugin-jest', 'jest', 'react-test-renderer'],
   dev: [
     '@babel/core',
     '@babel/plugin-proposal-class-properties',
@@ -322,6 +323,10 @@ export default class extends Generator {
 
     if (flags.addJest) {
       dev.push.apply(dev, packages.jest);
+    }
+
+    if (flags.addRedux && flags.addJest) {
+      dev.push.apply(dev, packages.reduxJest);
     }
 
     if (flags.addESDoc) {
