@@ -4,7 +4,7 @@
 <% } else if (styleFramework === 'uikit') { %>
 @import "~uikit/src/scss/variables-theme";
 @import "~uikit/src/scss/mixins-theme";
-@import "~uikit/src/scss/uikit-theme";  
+@import "~uikit/src/scss/uikit-theme";
 <% } else if (styleFramework === 'foundation') { %>
 @import "~foundation-sites/scss/foundation";
 <% } else if (styleFramework === 'materialize') { %>
