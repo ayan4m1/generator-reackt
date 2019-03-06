@@ -1,3 +1,6 @@
+<% if (styleFramework === 'bulma') { %>
+@charset "utf-8";
+<% } %>
 @import "~normalize-scss/sass/normalize/import-now";
 <% if (styleFramework === 'bootstrap') { %>
 @import "~bootstrap/scss/bootstrap";
@@ -10,6 +13,5 @@
 <% } else if (styleFramework === 'materialize') { %>
 @import "~materialize-css/sass/materialize";
 <% } else if (styleFramework === 'bulma') { %>
-@charset "utf-8";
 @import "~bulma/bulma";
 <% } %>
