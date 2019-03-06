@@ -28,7 +28,7 @@ const packages = {
     '@fortawesome/react-fontawesome'
   ],
   bootstrap: ['bootstrap'],
-  uikit: ['uikit'],
+  uikit: ['uikit', 'uikit-react'],
   foundation: ['foundation-sites'],
   materialize: ['materialize-css'],
   bulma: ['bulma'],
