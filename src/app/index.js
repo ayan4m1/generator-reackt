@@ -3,7 +3,6 @@ import mkdirp from 'mkdirp';
 import gulpIf from 'gulp-if';
 import { format } from 'date-fns';
 import prettier from 'gulp-prettier';
-import stylelint from 'gulp-stylelint';
 import request from 'request-promise-native';
 import spdxIdentifiers from 'spdx-license-ids';
 
@@ -165,7 +164,14 @@ export default class extends Generator {
     };
 
     this.registerTransformStream(gulpIf(/\.js$/, prettier()));
-    this.registerTransformStream(gulpIf(/\.scss$/, stylelint({ fix: true })));
+    this.registerTransformStream(
+      gulpIf(
+        /\.scss$/,
+        prettier({
+          singleQuote: false
+        })
+      )
+    );
   }
 
   async prompting() {
