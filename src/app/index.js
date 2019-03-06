@@ -182,7 +182,7 @@ export default class extends Generator {
         type: 'autocomplete',
         name: 'package.license',
         message: 'Package license',
-        source: (results, input) => {
+        source: (_, input) => {
           const pattern = new RegExp(`.*${input}.*`, 'i');
 
           return new Promise(resolve => {
