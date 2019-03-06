@@ -35,7 +35,14 @@ const packages = {
   lintStaged: ['husky', 'lint-staged'],
   redux: ['redux', 'react-redux', 'redux-saga'],
   reduxJest: ['redux-mock-store'],
-  core: ['normalize-scss', 'prop-types', 'react', 'react-dom', 'reselect'],
+  core: [
+    'normalize-scss',
+    'prop-types',
+    'react',
+    'react-dom',
+    'reselect',
+    'classnames'
+  ],
   esdoc: [
     'esdoc',
     'esdoc-ecmascript-proposal-plugin',
