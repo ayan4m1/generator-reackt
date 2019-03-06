@@ -218,31 +218,31 @@ export default class extends Generator {
       {
         type: 'confirm',
         name: 'flags.addLintStaged',
-        message: 'Install pre-commit linting hook?',
+        message: 'Force linting before commits?',
         default: true
       },
       {
         type: 'confirm',
         name: 'flags.addFontAwesome',
-        message: 'Install Font Awesome?',
+        message: 'Add Font Awesome?',
         default: true
       },
       {
         type: 'confirm',
         name: 'flags.addRedux',
-        message: 'Install Redux?',
+        message: 'Add Redux?',
         default: true
       },
       {
         type: 'confirm',
         name: 'flags.addJest',
-        message: 'Install Jest?',
+        message: 'Add Jest?',
         default: true
       },
       {
         type: 'confirm',
         name: 'flags.addESDoc',
-        message: 'Install ESDoc?',
+        message: 'Add ESDoc?',
         default: false
       }
     ]);
