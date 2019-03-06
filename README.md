@@ -1,6 +1,6 @@
 # The Reactor - An Opinionated Generator
 
-This project scaffolds a modern web application. It is fairly oninionated, but is customizable and extensible.
+This project scaffolds a modern web application. It is fairly opinionated, but is customizable and extensible.
 
 Here's the mile-long list of technologies the generated project will leverage:
 
