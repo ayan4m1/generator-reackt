@@ -1,11 +1,11 @@
 import path from 'path';
 import webpack from 'webpack';
-import CleanPlugin from 'clean-webpack-plugin';
 import HtmlPlugin from 'html-webpack-plugin';
+import CleanPlugin from 'clean-webpack-plugin';
+import TerserPlugin from 'uglifyjs-webpack-plugin';
+import StylelintPlugin from 'stylelint-webpack-plugin';
 import MiniCSSExtractPlugin from 'mini-css-extract-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
-import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
-import StylelintPlugin from 'stylelint-webpack-plugin';
 
 const dev = process.env.NODE_ENV === 'development';
 
@@ -87,10 +87,13 @@ export default {
   },
   optimization: {
     minimizer: [
-      new UglifyJsPlugin({
+      new TerserPlugin({
         cache: true,
         parallel: true,
-        sourceMap: dev
+        sourceMap: dev,
+        terserOptions: {
+          ecma: 9
+        }
       }),
       new OptimizeCSSAssetsPlugin({})
     ],
@@ -99,9 +102,16 @@ export default {
         default: false,
         vendors: false,
         vendor: {
+          priority: -2,
           name: 'vendor',
           chunks: 'all',
-          test: /node_modules/
+          test: /[\\/]node_modules[\\/]/
+        },
+        react: {
+          priority: -1,
+          name: 'vendor-react',
+          chunks: 'all',
+          test: /[\\/]node_modules[\\/](react|redux)/
         }
       }
     }

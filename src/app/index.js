@@ -90,7 +90,7 @@ const packages = {
     'stylelint-a11y',
     'stylelint-config-recommended',
     'stylelint-webpack-plugin',
-    'uglifyjs-webpack-plugin',
+    'terser-webpack-plugin',
     'webpack',
     'webpack-cli',
     'webpack-dev-server'
