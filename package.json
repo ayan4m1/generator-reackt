@@ -18,8 +18,12 @@
     "webpack",
     "redux"
   ],
+  "scripts": {
+    "build": "gulp",
+    "watch": "gulp watch"
+  },
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=10"
   },
   "author": "ayan4m1 <andrew@bulletlogic.com>",
   "license": "MIT",
