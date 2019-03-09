@@ -119,7 +119,7 @@
     "no-undef-init": 2,
     "no-undef": 2,
     "no-undefined": 0,
-    "no-underscore-dangle": 2,
+    "no-underscore-dangle": 0,
     "no-unexpected-multiline": 2,
     "no-unneeded-ternary": 0,
     "no-unreachable": 2,
