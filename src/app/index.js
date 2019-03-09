@@ -46,6 +46,7 @@ const packages = {
     'reselect',
     'classnames'
   ],
+  storybook: ['@storybook/react'],
   esdoc: [
     'esdoc',
     'esdoc-ecmascript-proposal-plugin',
@@ -231,6 +232,12 @@ export default class extends Generator {
       },
       {
         type: 'confirm',
+        name: 'flags.addStorybook',
+        message: 'Add Storybook?',
+        default: false
+      },
+      {
+        type: 'confirm',
         name: 'flags.addESDoc',
         message: 'Add ESDoc?',
         default: false
@@ -324,6 +331,10 @@ export default class extends Generator {
 
     if (flags.addRedux && flags.addJest) {
       dev.push.apply(dev, packages.reduxJest);
+    }
+
+    if (flags.addStorybook) {
+      dev.push.apply(dev, packages.storybook);
     }
 
     if (flags.addESDoc) {

@@ -1,13 +1,16 @@
 {
-    "name": "<%= package.name %>",
-    "version": "<%= package.version %>",
-    "description": "<%= package.description %>",
-    "author": "<%= author.name %> <<%= author.email %>>",
-    "license": "<%= package.license %>",
-    "scripts": {
-      "build": "cross-env NODE_ENV=production webpack",
-      "start": "cross-env NODE_ENV=development webpack-dev-server"
-    },
-    "dependencies": { },
-    "devDependencies": { }
+  "name": "<%= package.name %>",
+  "version": "<%= package.version %>",
+  "description": "<%= package.description %>",
+  "author": "<%= author.name %> <<%= author.email %>>",
+  "license": "<%= package.license %>",
+  "scripts": {
+    <% if (flags.addStorybook) { %>
+    "storybook": "start-storybook",
+    <% } %>
+    "build": "cross-env NODE_ENV=production webpack",
+    "start": "cross-env NODE_ENV=development webpack-dev-server"
+  },
+  "dependencies": {},
+  "devDependencies": {}
 }
