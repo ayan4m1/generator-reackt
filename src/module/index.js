@@ -1,4 +1,5 @@
 import { join } from 'path';
+import fileSystem from '../util/fs';
 
 // we cannot use ES6 imports on this object, as it directly exports a class to
 // module.exports - no default export nor a named export is present for us to use
@@ -12,21 +13,7 @@ export default class extends Generator {
 
     this.sourceRoot(join(__dirname, '..', '..', 'templates', 'module'));
     this.answers = {};
-    this.fileSystem = {
-      copy: file => {
-        this.fs.copy(this.templatePath(file), this.destinationPath(file));
-      },
-      copyTemplate: (source, destination) => {
-        this.fs.copyTpl(
-          this.templatePath(source),
-          this.destinationPath(destination),
-          this.answers
-        );
-      },
-      createFile: (file, contents) => {
-        this.fs.write(this.destinationPath(file), contents);
-      }
-    };
+    this.fileSystem = fileSystem(this);
   }
 
   async prompting() {

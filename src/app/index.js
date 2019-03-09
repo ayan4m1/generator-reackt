@@ -1,7 +1,7 @@
 import { join } from 'path';
-import mkdirp from 'mkdirp';
 import gulpIf from 'gulp-if';
 import { format } from 'date-fns';
+import fileSystem from '../util/fs';
 import prettier from 'gulp-prettier';
 import stylelint from 'yeoman-stylelint';
 import request from 'request-promise-native';
@@ -140,30 +140,7 @@ export default class extends Generator {
     this.sourceRoot(join(__dirname, '..', '..', 'templates', 'app'));
 
     this.answers = {};
-    this.fileSystem = {
-      copy: file => {
-        this.fs.copy(this.templatePath(file), this.destinationPath(file));
-      },
-      copyDirectory: async dir => {
-        this.fs.copyTpl(
-          this.templatePath(`${dir}/**/*`),
-          this.destinationPath(dir),
-          this.answers
-        );
-      },
-      copyTemplate: file => {
-        this.fs.copyTpl(
-          this.templatePath(file),
-          this.destinationPath(file),
-          this.answers
-        );
-      },
-      createFile: (file, contents) => {
-        this.fs.write(this.destinationPath(file), contents);
-      },
-      makeDirectory: mkdirp
-    };
-
+    this.fileSystem = fileSystem(this);
     this.registerTransformStream(gulpIf(/\.js$/, prettier()));
     this.registerTransformStream(
       gulpIf(
