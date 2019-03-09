@@ -3,6 +3,7 @@ import mkdirp from 'mkdirp';
 import gulpIf from 'gulp-if';
 import { format } from 'date-fns';
 import prettier from 'gulp-prettier';
+import stylelint from 'yeoman-stylelint';
 import request from 'request-promise-native';
 import spdxIdentifiers from 'spdx-license-ids';
 
@@ -167,8 +168,8 @@ export default class extends Generator {
     this.registerTransformStream(
       gulpIf(
         /\.scss$/,
-        prettier({
-          singleQuote: false
+        stylelint({
+          configFile: join(__dirname, '..', '..', '.stylelintrc')
         })
       )
     );
