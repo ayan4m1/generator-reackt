@@ -84,6 +84,7 @@ const packages = {
     'html-webpack-plugin',
     'mini-css-extract-plugin',
     'node-sass',
+    'opener',
     'optimize-css-assets-webpack-plugin',
     'postcss-flexbugs-fixes',
     'postcss-loader',
@@ -127,10 +128,12 @@ const directories = {
 };
 const scripts = {
   esdoc: {
-    'build:documentation': 'esdoc'
+    'build:documentation': 'esdoc',
+    'view:documentation': 'opener ./docs/index.html'
   },
   jest: {
-    test: 'jest'
+    test: 'jest',
+    'view:coverage': 'opener ./coverage/index.html'
   }
 };
 
