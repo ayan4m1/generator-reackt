@@ -1,0 +1,23 @@
+{
+  "source": "./src",
+  "destination": "./docs",
+  "plugins": [
+    {
+      "name": "esdoc-standard-plugin",
+      "option": {
+        "test": {
+          "source": "./src/",
+          "interfaces": ["describe", "it", "context", "suite", "test"],
+          "includes": ["test\\.js$"]
+        }
+      }
+    },
+    { "name": "esdoc-jsx-plugin" },
+    {
+      "name": "esdoc-ecmascript-proposal-plugin",
+      "option": {
+        "all": true
+      }
+    }
+  ]
+}

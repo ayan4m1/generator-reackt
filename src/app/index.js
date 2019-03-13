@@ -119,6 +119,7 @@ const files = {
     src('index.html'),
     src('index.scss')
   ],
+  esdoc: ['.esdoc.json'],
   jest: ['jest.config.js'],
   lintStaged: ['.huskyrc', '.lintstagedrc']
 };
@@ -293,6 +294,7 @@ export default class extends Generator {
     }
 
     if (flags.addESDoc) {
+      files.esdoc.forEach(this.fileSystem.copy);
       this.fs.append(this.destinationPath('.gitignore'), 'docs/');
       this.fs.extendJSON(this.destinationPath('package.json'), {
         scripts: {
