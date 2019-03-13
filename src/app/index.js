@@ -46,7 +46,11 @@ const packages = {
     'reselect',
     'classnames'
   ],
-  storybook: ['@storybook/react'],
+  storybook: [
+    '@storybook/react',
+    '@storybook/addons',
+    '@storybook/addon-knobs'
+  ],
   esdoc: [
     'esdoc',
     'esdoc-ecmascript-proposal-plugin',
