@@ -5,8 +5,10 @@ module.exports = {
     "browser": true,
     "commonjs": true,
     "es6": true,
-    "node": true,
-    "jest": true
+    <% if (flags.addJest) { %>
+    "jest": true,
+    <% } %>
+    "node": true
   },
   "plugins": [
     "import",
