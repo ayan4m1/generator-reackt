@@ -277,7 +277,7 @@ export default class extends Generator {
 
     // copy files and directories
     files.core.forEach(this.fileSystem.copy);
-    files.templated.forEach(this.fileSystem.copyTemplate);
+    files.templated.forEach(this.fileSystem.copyTemplateInPlace);
     directories.core.forEach(this.fileSystem.copyDirectory);
 
     if (flags.addRedux) {

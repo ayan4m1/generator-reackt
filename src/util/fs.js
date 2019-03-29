@@ -18,6 +18,13 @@ export default gen => ({
       gen.answers
     );
   },
+  copyTemplateInPlace: file => {
+    gen.fs.copyTpl(
+      gen.templatePath(file),
+      gen.destinationPath(file),
+      gen.answers
+    );
+  },
   createFile: (file, contents) => {
     gen.fs.write(gen.destinationPath(file), contents);
   },
