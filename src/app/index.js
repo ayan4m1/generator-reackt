@@ -109,6 +109,7 @@ const files = {
     '.prettierrc',
     '.stylelintrc',
     '.editorconfig',
+    'jsconfig.json',
     src('utils', 'index.js'),
     'webpack.config.babel.js'
   ],
