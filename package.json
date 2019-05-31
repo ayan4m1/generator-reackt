@@ -37,7 +37,7 @@
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
     "spdx-license-ids": "^3.0.4",
-    "yeoman-generator": "^4.0.0",
+    "yeoman-generator": "^4.0.1",
     "yeoman-stylelint": "^0.1.1"
   },
   "devDependencies": {
