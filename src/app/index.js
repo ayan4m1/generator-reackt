@@ -22,7 +22,8 @@ const styleFrameworks = [
   { value: 'bulma', name: 'Bulma' },
   { value: 'foundation', name: 'Foundation' },
   { value: 'materialize', name: 'Materialize' },
-  { value: 'uikit', name: 'UIKit' }
+  { value: 'uikit', name: 'UIKit' },
+  { value: 'materialUi', name: 'Material-UI' }
 ];
 const packages = {
   fontAwesome: [
@@ -35,6 +36,7 @@ const packages = {
   foundation: ['foundation-sites'],
   materialize: ['materialize-css'],
   bulma: ['bulma'],
+  materialUi: ['@material-ui/core'],
   lintStaged: ['husky', 'lint-staged'],
   redux: ['redux', 'react-redux', 'redux-saga'],
   reduxJest: ['redux-mock-store'],
@@ -352,9 +354,7 @@ export default class extends Generator {
     }
 
     this.log(
-      `Getting ready to install ${main.length} dependencies and ${
-        dev.length
-      } dev dependencies.`
+      `Getting ready to install ${main.length} dependencies and ${dev.length} dev dependencies.`
     );
     this.npmInstall(main, { save: true });
     this.npmInstall(dev, { 'save-dev': true });
