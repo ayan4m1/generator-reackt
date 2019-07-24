@@ -30,7 +30,7 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "date-fns": "^1.30.1",
-    "gulp-if": "^2.0.2",
+    "gulp-if": "^3.0.0",
     "gulp-prettier": "^2.1.0",
     "inquirer-autocomplete-prompt": "^1.0.1",
     "mkdirp": "^0.5.1",
@@ -41,18 +41,18 @@
     "yeoman-stylelint": "^0.1.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.4",
-    "@babel/preset-env": "^7.5.4",
-    "@babel/register": "^7.4.4",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/register": "^7.5.5",
     "babel-eslint": "^10.0.2",
     "del": "^5.0.0",
-    "eslint": "^6.0.1",
+    "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-prettier": "^3.1.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-eslint": "^6.0.0",
-    "husky": "^3.0.0",
+    "husky": "^3.0.1",
     "lint-staged": "^9.2.0",
     "prettier": "^1.18.2",
     "prettier-eslint": "^9.0.0"
