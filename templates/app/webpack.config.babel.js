@@ -1,10 +1,11 @@
 import path from 'path';
 import webpack from 'webpack';
+import { CLIEngine } from 'eslint';
 import HtmlPlugin from 'html-webpack-plugin';
-import { CleanWebpackPlugin as CleanPlugin } from 'clean-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import StylelintPlugin from 'stylelint-webpack-plugin';
 import MiniCSSExtractPlugin from 'mini-css-extract-plugin';
+import { CleanWebpackPlugin as CleanPlugin } from 'clean-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 
 const dev = process.env.NODE_ENV === 'development';
@@ -26,7 +27,15 @@ export default {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: ['babel-loader', 'eslint-loader']
+        use: [
+          'babel-loader',
+          {
+            loader: 'eslint-loader',
+            options: {
+              formatter: CLIEngine.getFormatter('stylish')
+            }
+          }
+        ]
       },
       {
         test: /\.(sa|sc|c)ss$/,
