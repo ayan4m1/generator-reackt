@@ -41,6 +41,8 @@ const packages = {
   redux: ['redux', 'react-redux', 'redux-saga'],
   reduxJest: ['redux-mock-store'],
   core: [
+    '@babel/runtime',
+    'core-js',
     'normalize-scss',
     'prop-types',
     'react',
@@ -64,7 +66,8 @@ const packages = {
     '@babel/core',
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-proposal-object-rest-spread',
-    '@babel/polyfill',
+    '@babel/plugin-transform-runtime',
+    '@babel/plugin-transform-regenerator',
     '@babel/preset-env',
     '@babel/preset-react',
     '@babel/register',
