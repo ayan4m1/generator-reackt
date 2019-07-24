@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 <% if (flags.addRedux) { %>
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { applyMiddleware, createStore, compose } from 'redux';
 <% } %>
 <% if (flags.addFontAwesome) { %>
@@ -38,9 +39,11 @@ sagaMiddleware.run(rootSaga);
 <% } %>
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <Router>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </Router>,
   document.getElementById('root')
 );
 
