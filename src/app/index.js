@@ -112,6 +112,7 @@ const files = {
     '.stylelintrc',
     '.editorconfig',
     'jsconfig.json',
+    '.browserslistrc',
     src('utils', 'index.js'),
     'webpack.config.babel.js'
   ],
