@@ -276,7 +276,7 @@ export default class extends Generator {
       );
 
       licenseText = rawLicense
-        .replace('<year>', format(new Date(), 'YYYY'))
+        .replace('<year>', format(new Date(), 'yyyy'))
         .replace('<copyright holders>', `${name} <${email}>`);
     }
     this.fileSystem.createFile('LICENSE', licenseText);
