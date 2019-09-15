@@ -1,9 +1,9 @@
 import { join } from 'path';
 import gulpIf from 'gulp-if';
 import { format } from 'date-fns';
-import { readFileSync } from 'fs';
 import fileSystem from '../util/fs';
 import prettier from 'gulp-prettier';
+import { readFileSync } from 'jsonfile';
 import stylelint from 'yeoman-stylelint';
 import request from 'request-promise-native';
 import spdxIdentifiers from 'spdx-license-ids';
@@ -17,7 +17,8 @@ const Generator = require('yeoman-generator');
 
 const src = (...paths) => join('src', ...paths);
 
-const getPrettierConfig = () => readFileSync(join('.', '.prettierrc'));
+const getPrettierConfig = () =>
+  readFileSync(join(__dirname, '..', '..', '.prettierrc'));
 
 const styleFrameworks = [
   { value: null, name: 'None' },
