@@ -47,6 +47,7 @@ const packages = {
     'prop-types',
     'react',
     'react-dom',
+    'react-router-dom',
     'reselect',
     'classnames'
   ],
