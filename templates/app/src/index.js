@@ -3,10 +3,10 @@ import 'regenerator-runtime/runtime';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 <% if (flags.addRedux) { %>
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
-import { BrowserRouter as Router } from 'react-router-dom';
 import { applyMiddleware, createStore, compose } from 'redux';
 <% } %>
 <% if (flags.addFontAwesome) { %>
@@ -42,9 +42,13 @@ sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <Router>
+<% if (flags.addRedux) { %>
     <Provider store={store}>
       <App />
     </Provider>
+<% } else { %>
+    <App />
+<% } %>
   </Router>,
   document.getElementById('root')
 );
