@@ -1,6 +1,7 @@
 import { join } from 'path';
 import gulpIf from 'gulp-if';
 import { format } from 'date-fns';
+import { readFileSync } from 'fs';
 import fileSystem from '../util/fs';
 import prettier from 'gulp-prettier';
 import stylelint from 'yeoman-stylelint';
@@ -15,6 +16,8 @@ spdxIdentifiers.sort();
 const Generator = require('yeoman-generator');
 
 const src = (...paths) => join('src', ...paths);
+
+const getPrettierConfig = () => readFileSync(join('.', '.prettierrc'));
 
 const styleFrameworks = [
   { value: null, name: 'None' },
@@ -158,7 +161,9 @@ export default class extends Generator {
 
     this.answers = {};
     this.fileSystem = fileSystem(this);
-    this.registerTransformStream(gulpIf(/\.js$/, prettier()));
+    this.registerTransformStream(
+      gulpIf(/\.js$/, prettier(getPrettierConfig()))
+    );
     this.registerTransformStream(
       gulpIf(
         /\.scss$/,
