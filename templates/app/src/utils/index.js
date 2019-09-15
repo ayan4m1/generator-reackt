@@ -1,3 +1,5 @@
+import { createElement } from 'react';
+
 <% if (flags.addRedux) { %>
 /* eslint-disable react/display-name, react/prop-types */
 
