@@ -9,13 +9,10 @@ import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import { applyMiddleware, createStore, compose } from 'redux';
 <% } %>
-<% if (flags.addFontAwesome) { %>
-// todo: uncomment the lines below, substituting in the icons you need
-// import { library } from '@fortawesome/fontawesome-svg-core';
-// import { faFontAwesome } from '@fortawesome/free-solid-svg-icons';
-// library.add(faFontAwesome);
-<% } %>
 
+<% if (flags.addFontAwesome) { %>
+  import './icons.js';
+<% } %>
 import './index.scss';
 import App from './components/App/App';
 <% if (flags.addRedux) { %>

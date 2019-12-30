@@ -134,7 +134,8 @@ const files = {
   ],
   esdoc: ['.esdoc.json'],
   jest: ['jest.config.js'],
-  lintStaged: ['.huskyrc', '.lintstagedrc']
+  lintStaged: ['.huskyrc', '.lintstagedrc'],
+  fontAwesome: [src('icons.js')]
 };
 const directories = {
   redux: [src('reducers'), src('sagas'), src('selectors')],
@@ -320,6 +321,10 @@ export default class extends Generator {
 
     if (flags.addLintStaged) {
       files.lintStaged.forEach(this.fileSystem.copy);
+    }
+
+    if (flags.addFontAwesome) {
+      files.fontAwesome.forEach(this.fileSystem.copy);
     }
   }
 
