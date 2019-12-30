@@ -100,6 +100,7 @@ const packages = {
     'postcss-loader',
     'prettier',
     'prettier-eslint',
+    'prettier-stylelint',
     'sass-loader',
     'style-loader',
     'stylelint',
