@@ -122,15 +122,15 @@ const files = {
     '.editorconfig',
     'jsconfig.json',
     '.browserslistrc',
-    src('utils', 'index.js'),
-    'webpack.config.babel.js'
+    src('utils', 'index.js')
   ],
   templated: [
     '.eslintrc.js',
     'package.json',
     src('index.js'),
     src('index.html'),
-    src('index.scss')
+    src('index.scss'),
+    'webpack.config.babel.js'
   ],
   esdoc: ['.esdoc.json'],
   jest: ['jest.config.js'],

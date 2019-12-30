@@ -1,5 +1,5 @@
-import path from 'path';
 import webpack from 'webpack';
+import { resolve } from 'path';
 import { CLIEngine } from 'eslint';
 import HtmlPlugin from 'html-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
@@ -9,6 +9,28 @@ import { CleanWebpackPlugin as CleanPlugin } from 'clean-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 
 const dev = process.env.NODE_ENV === 'development';
+
+const plugins = [
+  new CleanPlugin(),
+  new StylelintPlugin({
+    configFile: '.stylelintrc',
+    context: 'src',
+    files: '**/*.scss',
+    failOnError: true,
+    quiet: false,
+    syntax: 'scss'
+  }),
+  new MiniCSSExtractPlugin({
+    filename: '[name].css'
+  }),
+  new HtmlPlugin({
+    template: './src/index.html'
+  })
+];
+
+if (dev) {
+  plugins.push(new webpack.HotModuleReplacementPlugin());
+}
 
 export default {
   mode: dev ? 'development' : 'production',
@@ -68,38 +90,22 @@ export default {
     ]
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: resolve(__dirname, 'dist'),
     filename: 'main.js',
     chunkFilename: '[name].js'
   },
-  plugins: [
-    new CleanPlugin(),
-    new StylelintPlugin({
-      configFile: '.stylelintrc',
-      context: 'src',
-      files: '**/*.scss',
-      failOnError: true,
-      quiet: false,
-      syntax: 'scss'
-    }),
-    new MiniCSSExtractPlugin({
-      filename: '[name].css'
-    }),
-    new HtmlPlugin({
-      template: './src/index.html'
-    }),
-    new webpack.HotModuleReplacementPlugin()
-  ],
+  plugins,
   resolve: {
     extensions: ['.js', '.json'],
-    modules: ['node_modules', 'src']
+    modules: ['node_modules', 'src'],
+    alias: {
+      components: resolve(__dirname, 'src/components'),
+      utils: resolve(__dirname, 'src/utils')
+    }
   },
   optimization: {
     minimizer: [
       new TerserPlugin({
-        cache: true,
-        parallel: true,
-        sourceMap: dev,
         terserOptions: {
           ecma: 9
         }
@@ -120,7 +126,11 @@ export default {
           priority: -1,
           name: 'vendor-react',
           chunks: 'all',
+<% if (flags.addRedux) { %>
           test: /[\\/]node_modules[\\/](react|redux)/
+<% } else { %>
+          test: /[\\/]node_modules[\\/](react)/
+<% } %>
         }
       }
     }
