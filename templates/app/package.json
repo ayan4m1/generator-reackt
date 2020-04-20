@@ -8,6 +8,9 @@
     <% if (flags.addStorybook) { %>
     "storybook": "start-storybook",
     <% } %>
+    <% if (flags.addJest) { %>
+    "test": "jest",
+    <% } %>
     "build": "cross-env NODE_ENV=production webpack",
     "start": "cross-env NODE_ENV=development webpack-dev-server"
   },
