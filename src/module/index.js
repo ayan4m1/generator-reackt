@@ -77,7 +77,7 @@ export default class extends Generator {
 
     this.log(`Creating module ${name}`);
 
-    const buildPaths = ext => {
+    const buildPaths = (ext) => {
       const namePath = `${name}${ext}`;
       const indexPath = `index${ext}`;
       const destPath = [];

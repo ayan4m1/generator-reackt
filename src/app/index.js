@@ -200,9 +200,9 @@ export default class extends Generator {
         source: (_, input) => {
           const pattern = new RegExp(`.*${input}.*`, 'i');
 
-          return new Promise(resolve => {
+          return new Promise((resolve) => {
             resolve(
-              spdxIdentifiers.filter(identifier => pattern.test(identifier))
+              spdxIdentifiers.filter((identifier) => pattern.test(identifier))
             );
           });
         }
