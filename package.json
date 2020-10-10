@@ -3,7 +3,9 @@
   "version": "0.2.2",
   "description": "Create an opinionated React-based web applcication",
   "files": [
-    "generators"
+    "generators",
+    "templates",
+    ".prettierrc"
   ],
   "repository": {
     "type": "git",
