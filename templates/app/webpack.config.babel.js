@@ -1,7 +1,7 @@
 import webpack from 'webpack';
 import { resolve } from 'path';
-import { CLIEngine } from 'eslint';
 import HtmlPlugin from 'html-webpack-plugin';
+import ESLintPlugin from 'eslint-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import StylelintPlugin from 'stylelint-webpack-plugin';
 import MiniCSSExtractPlugin from 'mini-css-extract-plugin';
@@ -25,7 +25,8 @@ const plugins = [
   }),
   new HtmlPlugin({
     template: './src/index.html'
-  })
+  }),
+  new ESLintPlugin()
 ];
 
 if (dev) {
@@ -34,7 +35,7 @@ if (dev) {
 
 export default {
   mode: dev ? 'development' : 'production',
-  devtool: dev ? 'cheap-module-eval-source-map' : 'cheap-module-source-map',
+  devtool: dev ? 'eval-cheap-module-source-map' : 'cheap-module-source-map',
   entry: './src/index.js',
   devServer: {
     compress: dev,
@@ -49,15 +50,7 @@ export default {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: [
-          'babel-loader',
-          {
-            loader: 'eslint-loader',
-            options: {
-              formatter: CLIEngine.getFormatter('stylish')
-            }
-          }
-        ]
+        use: ['babel-loader']
       },
       {
         test: /\.(sa|sc|c)ss$/,
@@ -111,28 +104,6 @@ export default {
         }
       }),
       new OptimizeCSSAssetsPlugin({})
-    ],
-    splitChunks: {
-      cacheGroups: {
-        default: false,
-        vendors: false,
-        vendor: {
-          priority: -2,
-          name: 'vendor',
-          chunks: 'all',
-          test: /[\\/]node_modules[\\/]/
-        },
-        react: {
-          priority: -1,
-          name: 'vendor-react',
-          chunks: 'all',
-<% if (flags.addRedux) { %>
-          test: /[\\/]node_modules[\\/](react|redux)/
-<% } else { %>
-          test: /[\\/]node_modules[\\/](react)/
-<% } %>
-        }
-      }
-    }
+    ]
   }
 };

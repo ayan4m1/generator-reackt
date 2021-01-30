@@ -25,6 +25,7 @@ module.exports = {
     "plugin:prettier/recommended",
     "plugin:jsx-a11y/recommended",
     "plugin:import/errors",
+    "plugin:react-hooks/recommended",
     <% if (flags.addJest) { %>
     "plugin:jest/recommended",
     <% } %>
