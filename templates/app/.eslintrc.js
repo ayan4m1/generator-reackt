@@ -29,8 +29,7 @@ module.exports = {
     <% if (flags.addJest) { %>
     "plugin:jest/recommended",
     <% } %>
-    "prettier",
-    "prettier/react"
+    "prettier"
   ],
   "parser": "babel-eslint",
   "parserOptions": {
