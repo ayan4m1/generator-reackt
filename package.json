@@ -1,6 +1,6 @@
 {
   "name": "generator-reackt",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Create an opinionated React-based web applcication",
   "files": [
     "generators",
