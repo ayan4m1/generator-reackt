@@ -380,7 +380,7 @@ export default class extends Generator {
     this.log(
       `Getting ready to install ${main.length} dependencies and ${dev.length} dev dependencies.`
     );
-    this.npmInstall(main, { save: true });
-    this.npmInstall(dev, { 'save-dev': true });
+    this.addDependencies(main);
+    this.addDevDependencies(dev);
   }
 }

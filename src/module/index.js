@@ -29,8 +29,7 @@ export default class extends Generator {
         message: 'Choose a way of structuring the module.',
         choices: [
           {
-            name:
-              'Create a directory with the module name and an index.js file inside that.',
+            name: 'Create a directory with the module name and an index.js file inside that.',
             value: 'dir',
             short: 'Directory'
           },

@@ -4,11 +4,10 @@
     "node": true
   },
   "plugins": ["prettier"],
-  "extends": ["eslint:recommended", "plugin:prettier/recommended", "prettier"],
-  "parser": "babel-eslint",
+  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
-    "ecmaVersion": 9,
-    "sourceType": "module"
+    "ecmaVersion": 12
   },
   "rules": {
     "accessor-pairs": 2,
