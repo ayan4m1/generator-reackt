@@ -27,17 +27,16 @@ module.exports = {
     "plugin:import/errors",
     "plugin:react-hooks/recommended",
     <% if (flags.addJest) { %>
-    "plugin:jest/recommended",
+    "plugin:jest/recommended"
     <% } %>
-    "prettier"
   ],
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
+    "requireConfigFile": false,
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 9,
-    "sourceType": "module"
+    "ecmaVersion": 12
   },
   "rules": {
     "accessor-pairs": 2,
