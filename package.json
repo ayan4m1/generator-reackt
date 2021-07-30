@@ -22,7 +22,8 @@
   ],
   "scripts": {
     "build": "gulp",
-    "watch": "gulp watch"
+    "watch": "gulp watch",
+    "prepublishOnly": "gulp"
   },
   "engines": {
     "node": ">=12"
