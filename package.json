@@ -32,13 +32,12 @@
   "dependencies": {
     "chalk": "^4.1.2",
     "date-fns": "^2.23.0",
+    "got": "^6.7.1",
     "gulp-if": "^3.0.0",
     "gulp-prettier": "^3.0.0",
     "inquirer-autocomplete-prompt": "^1.4.0",
     "jsonfile": "^6.1.0",
     "mkdirp": "^1.0.4",
-    "request": "^2.88.2",
-    "request-promise-native": "^1.0.9",
     "spdx-license-ids": "^3.0.9",
     "yeoman-generator": "^4.13.0",
     "yeoman-stylelint": "^0.1.3"
