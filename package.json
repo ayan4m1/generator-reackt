@@ -23,7 +23,8 @@
   "scripts": {
     "build": "gulp",
     "watch": "gulp watch",
-    "prepublishOnly": "gulp"
+    "prepublishOnly": "gulp",
+    "version": "auto-changelog -p --hide-credit && git add CHANGELOG.md"
   },
   "engines": {
     "node": ">=12"
@@ -48,6 +49,7 @@
     "@babel/eslint-parser": "^7.14.7",
     "@babel/preset-env": "^7.14.8",
     "@babel/register": "^7.14.5",
+    "auto-changelog": "^2.3.0",
     "del": "^6.0.0",
     "eslint": "^7.31.0",
     "eslint-config-prettier": "^8.3.0",
