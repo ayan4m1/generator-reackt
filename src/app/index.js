@@ -192,7 +192,7 @@ export default class extends Generator {
         type: 'input',
         name: 'package.name',
         message: 'Package name',
-        default: this.appname
+        default: this.appname.replace(/\s+/g, '-')
       },
       {
         type: 'input',
