@@ -388,7 +388,7 @@ export default class extends Generator {
       'husky',
       'add',
       '.husky/pre-commit',
-      "'npx lint-staged'"
+      'npx lint-staged'
     ]);
   }
 }
