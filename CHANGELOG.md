@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [v0.3.2](https://git.codecube.xyz/web/generator-reackt/compare/v0.3.1...v0.3.2)
+
+- fix lint-staged invocation [`df3b020`](https://git.codecube.xyz/web/generator-reackt/commit/df3b020897a825db04731e7e51070d49a721dddc)
+
 #### [v0.3.1](https://git.codecube.xyz/web/generator-reackt/compare/v0.3.0...v0.3.1)
+
+> 6 August 2021
 
 - support husky 7 [`6adaafe`](https://git.codecube.xyz/web/generator-reackt/commit/6adaafeea509414237cd2ee0406ffdcc90babbb9)
 
