@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [v0.3.1](https://git.codecube.xyz/web/generator-reackt/compare/v0.3.0...v0.3.1)
+
+- support husky 7 [`6adaafe`](https://git.codecube.xyz/web/generator-reackt/commit/6adaafeea509414237cd2ee0406ffdcc90babbb9)
+
 #### [v0.3.0](https://git.codecube.xyz/web/generator-reackt/compare/v0.2.6...v0.3.0)
+
+> 30 July 2021
 
 - upgrade all dependencies, migrate to yeoman-generator 5 and husky 7, replace babel-eslint with @babel/eslint-parser [`759925a`](https://git.codecube.xyz/web/generator-reackt/commit/759925ab65f251bf58bf26d62b3cb1f09d1d045f)
 - replace request-promise-native with got [`f339a70`](https://git.codecube.xyz/web/generator-reackt/commit/f339a7052927746601ea03bd986835dfbf83045d)
