@@ -2,7 +2,20 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [v0.3.3](https://git.codecube.xyz/web/generator-reackt/compare/v0.3.2...v0.3.3)
+
+- upgrade deps [`13e96d9`](https://git.codecube.xyz/web/generator-reackt/commit/13e96d984282232480f68abc710fa3c379b0fae3)
+- fix gitignore file not getting copied over [`1a0d3ba`](https://git.codecube.xyz/web/generator-reackt/commit/1a0d3ba4d834fcde0c83f7ab362d54e39a463f65)
+- convert App to functional component, remove React import, update templated eslintrc [`38bd456`](https://git.codecube.xyz/web/generator-reackt/commit/38bd4560b56ba97784ffb8cb282cfba3d52a6b0e)
+- add react 17 transform rule exceptions to template eslintrc [`f41ca82`](https://git.codecube.xyz/web/generator-reackt/commit/f41ca8213745ccc2468a6bb38a7dd41dc4d3a1cb)
+- add root .stylelintrc to package.json "files" [`897c0db`](https://git.codecube.xyz/web/generator-reackt/commit/897c0db6278ce8b03f26677bd8bf538966d5b7a1)
+- fix syntax error [`ff010cf`](https://git.codecube.xyz/web/generator-reackt/commit/ff010cfa473f5c0f7648d4441c1ad8160b94557b)
+- add react 17 transform config to .babelrc [`90a2965`](https://git.codecube.xyz/web/generator-reackt/commit/90a2965bdf77b597a436263fbe2269d285d3b2f8)
+- remove unused React import [`c8d018b`](https://git.codecube.xyz/web/generator-reackt/commit/c8d018b0953a014132b84694e1494df8f19e4df6)
+
 #### [v0.3.2](https://git.codecube.xyz/web/generator-reackt/compare/v0.3.1...v0.3.2)
+
+> 6 August 2021
 
 - fix lint-staged invocation [`df3b020`](https://git.codecube.xyz/web/generator-reackt/commit/df3b020897a825db04731e7e51070d49a721dddc)
 
