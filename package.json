@@ -5,7 +5,8 @@
   "files": [
     "generators",
     "templates",
-    ".prettierrc"
+    ".prettierrc",
+    ".stylelintrc"
   ],
   "repository": {
     "type": "git",
