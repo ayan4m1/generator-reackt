@@ -123,7 +123,6 @@ const packages = {
 const files = {
   core: [
     '.babelrc',
-    '.gitignore',
     '.prettierrc',
     '.stylelintrc',
     '.editorconfig',
@@ -301,6 +300,9 @@ export default class extends Generator {
     files.core.forEach(this.fileSystem.copy);
     files.templated.forEach(this.fileSystem.copyTemplateInPlace);
     directories.core.forEach(this.fileSystem.copyDirectory);
+
+    // this is a workaround for npm not packaging up .gitignore files
+    this.fileSystem.copyTo('gitignore', '.gitignore');
 
     if (flags.addRedux) {
       directories.redux.forEach(this.fileSystem.copyDirectory);
