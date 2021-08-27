@@ -11,4 +11,4 @@ export default connect(
   null,
   null
 )(App);
-<% }
+<% } %>
