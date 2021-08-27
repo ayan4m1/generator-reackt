@@ -3,28 +3,18 @@ const path = require('path');
 module.exports = {
   "env": {
     "browser": true,
-    "commonjs": true,
-    "es6": true,
+    "es2020": true,
     <% if (flags.addJest) { %>
     "jest": true,
     <% } %>
     "node": true
   },
-  "plugins": [
-    "import",
-    "react",
-    "prettier",
-    <% if (flags.addJest) { %>
-    "jest",
-    <% } %>
-    "jsx-a11y"
-  ],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
     "plugin:jsx-a11y/recommended",
-    "plugin:import/errors",
+    "plugin:import/recommended",
     "plugin:react-hooks/recommended",
     <% if (flags.addJest) { %>
     "plugin:jest/recommended"

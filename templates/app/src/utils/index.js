@@ -1,4 +1,6 @@
+<% if (flags.addJest) { %>
 import { createElement } from 'react';
+<% } %>
 
 <% if (flags.addRedux) { %>
 /* eslint-disable react/display-name, react/prop-types */
@@ -21,6 +23,7 @@ export function buildActions(reducer, actions) {
 }
 <% } %>
 
+<% if (flags.addJest) { %>
 /**
  * Creates a mock component which will expose its props for snapshot testing purposes.
  *
@@ -30,3 +33,4 @@ export function buildActions(reducer, actions) {
  */
 export const mockComponent = (name, props = {}) => () =>
   createElement(name, props, props.children);
+<% } %>
