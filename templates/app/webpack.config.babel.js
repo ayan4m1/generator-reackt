@@ -38,7 +38,6 @@ export default {
   devServer: {
     compress: dev,
     open: true,
-    overlay: true,
     historyApiFallback: true,
     hot: dev,
     port: 9000
@@ -100,7 +99,7 @@ export default {
     minimizer: [
       new TerserPlugin({
         terserOptions: {
-          ecma: 9
+          ecma: 12
         }
       }),
       new CssMinimizerPlugin()
