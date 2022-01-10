@@ -2,7 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [v0.4.0](https://git.codecube.xyz/web/generator-reackt/compare/v0.3.3...v0.4.0)
+
+- switch from gulp to rollup, increase min supported node version to 16 [`35cd3f9`](https://git.codecube.xyz/web/generator-reackt/commit/35cd3f92271442a409050a7f7aa3293ba76396a0)
+- pin stylelint packages for compatibility [`e3a471c`](https://git.codecube.xyz/web/generator-reackt/commit/e3a471ce43eeb8c9f617158b7fa76b6f0227a0ad)
+- fix webpack config [`9a89707`](https://git.codecube.xyz/web/generator-reackt/commit/9a897075f090a9670574993c89a789756333b6ab)
+
 #### [v0.3.3](https://git.codecube.xyz/web/generator-reackt/compare/v0.3.2...v0.3.3)
+
+> 27 August 2021
 
 - upgrade deps [`13e96d9`](https://git.codecube.xyz/web/generator-reackt/commit/13e96d984282232480f68abc710fa3c379b0fae3)
 - fix gitignore file not getting copied over [`1a0d3ba`](https://git.codecube.xyz/web/generator-reackt/commit/1a0d3ba4d834fcde0c83f7ab362d54e39a463f65)
