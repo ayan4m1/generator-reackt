@@ -1,9 +1,8 @@
 {
   "env": {
-    "es6": true,
+    "es2020": true,
     "node": true
   },
-  "plugins": ["prettier"],
   "extends": ["eslint:recommended", "plugin:prettier/recommended"],
   "parser": "@babel/eslint-parser",
   "parserOptions": {
@@ -147,7 +146,6 @@
     "vars-on-top": 2,
     "yoda": 2,
     "no-console": 2,
-    "no-debugger": 2,
-    "prettier/prettier": 2
+    "no-debugger": 2
   }
 }
