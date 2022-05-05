@@ -49,8 +49,8 @@ const packages = {
     'core-js',
     'normalize-scss',
     'prop-types',
-    'react',
-    'react-dom',
+    'react@17',
+    'react-dom@17',
     'react-router-dom',
     'reselect',
     'classnames'
