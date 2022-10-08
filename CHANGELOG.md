@@ -2,7 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [v0.4.1](https://git.codecube.xyz/web/generator-reackt/compare/v0.4.0...v0.4.1)
+
+- remove stylelint-a11y [`be166d8`](https://git.codecube.xyz/web/generator-reackt/commit/be166d84874ed665b24cb4554e10a3b5e03f2c65)
+- unpin stylelint and remove stylelint-a11y [`e6b8d62`](https://git.codecube.xyz/web/generator-reackt/commit/e6b8d62c2880be6e66c5f9c28f760bc213b5d12e)
+- fix up webpack config [`f2b6f4e`](https://git.codecube.xyz/web/generator-reackt/commit/f2b6f4e70251ba4c3d7444a3d0ef1f87eb61727e)
+- clean up App structure a bit [`46b77a3`](https://git.codecube.xyz/web/generator-reackt/commit/46b77a3c09a381d7389989d492858face94b4536)
+- pin react to version 17 for now [`bb4a5f7`](https://git.codecube.xyz/web/generator-reackt/commit/bb4a5f725b8fd252480597a3f182b2cc2652edb3)
+- remove normalize-scss import [`ad7e91a`](https://git.codecube.xyz/web/generator-reackt/commit/ad7e91a83e46faa3853603e3d9f5244d4bb3398c)
+
 #### [v0.4.0](https://git.codecube.xyz/web/generator-reackt/compare/v0.3.3...v0.4.0)
+
+> 10 January 2022
 
 - switch from gulp to rollup, increase min supported node version to 16 [`35cd3f9`](https://git.codecube.xyz/web/generator-reackt/commit/35cd3f92271442a409050a7f7aa3293ba76396a0)
 - pin stylelint packages for compatibility [`e3a471c`](https://git.codecube.xyz/web/generator-reackt/commit/e3a471ce43eeb8c9f617158b7fa76b6f0227a0ad)
