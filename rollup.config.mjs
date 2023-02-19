@@ -1,5 +1,6 @@
+import { resolve } from 'path';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 import autoExternal from 'rollup-plugin-auto-external';
 import babel from '@rollup/plugin-babel';
 import multiInput from 'rollup-plugin-multi-input';
@@ -15,10 +16,11 @@ export default {
   plugins: [
     eslint(),
     autoExternal(),
-    multiInput(),
+    multiInput.default(),
     nodeResolve(),
     babel({
-      babelHelpers: 'runtime'
+      babelHelpers: 'runtime',
+      configFile: resolve('.babelrc')
     }),
     terser()
   ]
