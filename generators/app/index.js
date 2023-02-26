@@ -1,24 +1,29 @@
-import got from 'got';
-import { join } from 'path';
+import { got } from 'got';
+import { dirname, join } from 'path';
 import gulpIf from 'gulp-if';
 import { format } from 'date-fns';
-import fileSystem from '../util/fs';
 import prettier from 'gulp-prettier';
-import { readFileSync } from 'jsonfile';
+import { createRequire } from 'module';
+import jsonfile from 'jsonfile';
 import stylelint from 'yeoman-stylelint';
-import spdxIdentifiers from 'spdx-license-ids';
+import spdxIdentifiers from 'spdx-license-ids' assert { type: 'json' };
+
+import fileSystem from '../util/fs.js';
 
 spdxIdentifiers.push('SEE LICENSE IN LICENSE');
 spdxIdentifiers.sort();
 
+const { readFileSync } = jsonfile;
+
 // we cannot use ES6 imports on this object, as it directly exports a class to
 // module.exports - no default export nor a named export is present for us to use
+const require = createRequire(import.meta.url);
 const Generator = require('yeoman-generator');
 
 const src = (...paths) => join('src', ...paths);
 
 const getPrettierConfig = () =>
-  readFileSync(join(__dirname, '..', '..', '.prettierrc'));
+  readFileSync(join(dirname(import.meta.url), '..', '..', '.prettierrc'));
 
 const styleFrameworks = [
   { value: null, name: 'None' },
@@ -45,8 +50,8 @@ const packages = {
   redux: ['redux', 'react-redux', 'redux-saga'],
   reduxJest: ['redux-mock-store'],
   core: [
-    '@babel/runtime',
-    'core-js',
+    '@babel/runtime-corejs3',
+    'core-js@3',
     'normalize-scss',
     'prop-types',
     'react@17',
@@ -57,8 +62,8 @@ const packages = {
   ],
   storybook: [
     '@storybook/react',
-    '@storybook/addons',
-    '@storybook/addon-knobs'
+    '@storybook/builder-webpack5',
+    '@storybook/manager-webpack5'
   ],
   esdoc: [
     'esdoc',
@@ -79,7 +84,6 @@ const packages = {
     '@babel/eslint-parser',
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-proposal-object-rest-spread',
-    '@babel/plugin-transform-regenerator',
     '@babel/plugin-transform-runtime',
     '@babel/preset-env',
     '@babel/preset-react',
@@ -164,7 +168,9 @@ export default class extends Generator {
       'autocomplete',
       require('inquirer-autocomplete-prompt')
     );
-    this.sourceRoot(join(__dirname, '..', '..', 'templates', 'app'));
+    this.sourceRoot(
+      join(dirname(import.meta.url), '..', '..', 'templates', 'app')
+    );
 
     this.answers = {};
     this.fileSystem = fileSystem(this);
@@ -175,7 +181,7 @@ export default class extends Generator {
       gulpIf(
         /\.scss$/,
         stylelint({
-          configFile: join(__dirname, '..', '..', '.stylelintrc')
+          configFile: join(dirname(import.meta.url), '..', '..', '.stylelintrc')
         })
       )
     );

@@ -1,8 +1,11 @@
-import { join } from 'path';
-import fileSystem from '../util/fs';
+import { join, dirname } from 'path';
+import { createRequire } from 'module';
+
+import fileSystem from '../util/fs.js';
 
 // we cannot use ES6 imports on this object, as it directly exports a class to
 // module.exports - no default export nor a named export is present for us to use
+const require = createRequire(import.meta.url);
 const Generator = require('yeoman-generator');
 
 const src = (...paths) => join('src', ...paths);
@@ -11,7 +14,9 @@ export default class extends Generator {
   constructor(...args) {
     super(...args);
 
-    this.sourceRoot(join(__dirname, '..', '..', 'templates', 'component'));
+    this.sourceRoot(
+      join(dirname(import.meta.url), '..', '..', 'templates', 'component')
+    );
     this.answers = {};
     this.fileSystem = fileSystem(this);
   }
