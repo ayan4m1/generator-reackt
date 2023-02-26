@@ -1,10 +1,11 @@
 import { got } from 'got';
-import { dirname, join } from 'path';
+import { join } from 'path';
 import gulpIf from 'gulp-if';
+import jsonfile from 'jsonfile';
 import { format } from 'date-fns';
+import { fileURLToPath } from 'url';
 import prettier from 'gulp-prettier';
 import { createRequire } from 'module';
-import jsonfile from 'jsonfile';
 import stylelint from 'yeoman-stylelint';
 import spdxIdentifiers from 'spdx-license-ids' assert { type: 'json' };
 
@@ -18,12 +19,13 @@ const { readFileSync } = jsonfile;
 // we cannot use ES6 imports on this object, as it directly exports a class to
 // module.exports - no default export nor a named export is present for us to use
 const require = createRequire(import.meta.url);
+const __dirname = fileURLToPath(import.meta.url);
 const Generator = require('yeoman-generator');
 
 const src = (...paths) => join('src', ...paths);
 
 const getPrettierConfig = () =>
-  readFileSync(join(dirname(import.meta.url), '..', '..', '.prettierrc'));
+  readFileSync(join(__dirname, '..', '..', '.prettierrc'));
 
 const styleFrameworks = [
   { value: null, name: 'None' },
@@ -168,9 +170,7 @@ export default class extends Generator {
       'autocomplete',
       require('inquirer-autocomplete-prompt')
     );
-    this.sourceRoot(
-      join(dirname(import.meta.url), '..', '..', 'templates', 'app')
-    );
+    this.sourceRoot(join(__dirname, '..', '..', 'templates', 'app'));
 
     this.answers = {};
     this.fileSystem = fileSystem(this);
@@ -181,7 +181,7 @@ export default class extends Generator {
       gulpIf(
         /\.scss$/,
         stylelint({
-          configFile: join(dirname(import.meta.url), '..', '..', '.stylelintrc')
+          configFile: join(__dirname, '..', '..', '.stylelintrc')
         })
       )
     );
