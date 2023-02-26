@@ -40,7 +40,7 @@ const packages = {
     '@fortawesome/free-solid-svg-icons',
     '@fortawesome/react-fontawesome'
   ],
-  bootstrap: ['bootstrap'],
+  bootstrap: ['bootstrap', 'react-bootstrap'],
   uikit: ['uikit', 'uikit-react'],
   foundation: ['foundation-sites'],
   materialize: ['materialize-css'],
