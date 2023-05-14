@@ -1,4 +1,3 @@
-import { resolve } from 'path';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
 import autoExternal from 'rollup-plugin-auto-external';
@@ -19,8 +18,7 @@ export default {
     multiInput.default(),
     nodeResolve(),
     babel({
-      babelHelpers: 'bundled',
-      configFile: resolve('.babelrc')
+      babelHelpers: 'bundled'
     }),
     terser()
   ]
