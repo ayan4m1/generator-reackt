@@ -19,7 +19,7 @@ export default {
     multiInput.default(),
     nodeResolve(),
     babel({
-      babelHelpers: 'runtime',
+      babelHelpers: 'bundled',
       configFile: resolve('.babelrc')
     }),
     terser()
