@@ -1,4 +1,8 @@
-import mkdirp from 'mkdirp';
+import { mkdirp } from 'mkdirp';
+import { join } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = fileURLToPath(import.meta.url);
 
 export default (gen) => ({
   copy: (file) =>
@@ -25,5 +29,6 @@ export default (gen) => ({
     ),
   createFile: (file, contents) =>
     gen.fs.write(gen.destinationPath(file), contents),
-  makeDirectory: mkdirp
+  makeDirectory: mkdirp,
+  resolve: (...paths) => join(__dirname, '..', '..', '..', ...paths)
 });

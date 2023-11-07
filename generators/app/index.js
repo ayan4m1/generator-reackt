@@ -3,10 +3,10 @@ import { join } from 'path';
 import gulpIf from 'gulp-if';
 import jsonfile from 'jsonfile';
 import { format } from 'date-fns';
-import { fileURLToPath } from 'url';
 import prettier from 'gulp-prettier';
 import { createRequire } from 'module';
 import stylelint from 'yeoman-stylelint';
+import inquirerPrompt from 'inquirer-autocomplete-prompt';
 import spdxIdentifiers from 'spdx-license-ids' assert { type: 'json' };
 
 import fileSystem from '../util/fs.js';
@@ -19,13 +19,9 @@ const { readFileSync } = jsonfile;
 // we cannot use ES6 imports on this object, as it directly exports a class to
 // module.exports - no default export nor a named export is present for us to use
 const require = createRequire(import.meta.url);
-const __dirname = fileURLToPath(import.meta.url);
 const Generator = require('yeoman-generator');
 
 const src = (...paths) => join('src', ...paths);
-
-const getPrettierConfig = () =>
-  readFileSync(join(__dirname, '..', '..', '.prettierrc'));
 
 const styleFrameworks = [
   { value: null, name: 'None' },
@@ -168,20 +164,23 @@ export default class extends Generator {
 
     this.env.adapter.promptModule.registerPrompt(
       'autocomplete',
-      require('inquirer-autocomplete-prompt')
+      inquirerPrompt
     );
-    this.sourceRoot(join(__dirname, '..', '..', 'templates', 'app'));
 
     this.answers = {};
     this.fileSystem = fileSystem(this);
+    this.sourceRoot(this.fileSystem.resolve('templates', 'app'));
     this.registerTransformStream(
-      gulpIf(/\.js$/, prettier(getPrettierConfig()))
+      gulpIf(
+        /\.js$/,
+        prettier(readFileSync(this.fileSystem.resolve('.prettierrc')))
+      )
     );
     this.registerTransformStream(
       gulpIf(
         /\.scss$/,
         stylelint({
-          configFile: join(__dirname, '..', '..', '.stylelintrc')
+          configFile: this.fileSystem.resolve('.stylelintrc')
         })
       )
     );
@@ -386,6 +385,8 @@ export default class extends Generator {
     this.log(
       `Getting ready to install ${main.length} dependencies and ${dev.length} dev dependencies.`
     );
+    this.log(`Dependencies: ${main.join(' ')}
+Dev dependencies: ${dev.join(' ')}`);
     this.npmInstall(main, { save: true });
     this.npmInstall(dev, { 'save-dev': true });
     this.spawnCommandSync('git', ['init']);
