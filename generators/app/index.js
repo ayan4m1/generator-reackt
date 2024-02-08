@@ -52,8 +52,8 @@ const packages = {
     'core-js@3',
     'normalize-scss',
     'prop-types',
-    'react@17',
-    'react-dom@17',
+    'react',
+    'react-dom',
     'react-router-dom',
     'reselect',
     'classnames'
@@ -80,8 +80,6 @@ const packages = {
   dev: [
     '@babel/core',
     '@babel/eslint-parser',
-    '@babel/plugin-proposal-class-properties',
-    '@babel/plugin-proposal-object-rest-spread',
     '@babel/plugin-transform-runtime',
     '@babel/preset-env',
     '@babel/preset-react',
@@ -140,8 +138,7 @@ const files = {
   ],
   esdoc: ['.esdoc.json'],
   jest: ['jest.config.js'],
-  lintStaged: ['.lintstagedrc'],
-  fontAwesome: [src('icons.js')]
+  lintStaged: ['.lintstagedrc']
 };
 const directories = {
   redux: [src('reducers'), src('sagas'), src('selectors')],
@@ -334,10 +331,6 @@ export default class extends Generator {
     if (flags.addLintStaged) {
       files.lintStaged.forEach(this.fileSystem.copy);
     }
-
-    if (flags.addFontAwesome) {
-      files.fontAwesome.forEach(this.fileSystem.copy);
-    }
   }
 
   install() {
@@ -390,12 +383,10 @@ Dev dependencies: ${dev.join(' ')}`);
     this.npmInstall(main, { save: true });
     this.npmInstall(dev, { 'save-dev': true });
     this.spawnCommandSync('git', ['init']);
-    this.spawnCommandSync('npx', ['husky', 'install']);
-    this.spawnCommandSync('npx', [
-      'husky',
-      'add',
-      '.husky/pre-commit',
-      'npx lint-staged'
+    this.spawnCommandSync('npx', ['husky', 'init']);
+    this.spawnCommandSync('bash', [
+      '-c',
+      'echo "npx lint-staged" > .husky/pre-commit'
     ]);
   }
 }

@@ -1,7 +1,6 @@
 import 'core-js/stable';
-import 'regenerator-runtime/runtime';
 
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 <% if (flags.addRedux) { %>
 import { Provider } from 'react-redux';
@@ -9,9 +8,6 @@ import createSagaMiddleware from 'redux-saga';
 import { applyMiddleware, createStore, compose } from 'redux';
 <% } %>
 
-<% if (flags.addFontAwesome) { %>
-  import './icons.js';
-<% } %>
 import './index.scss';
 import App from './components/App';
 <% if (flags.addRedux) { %>
@@ -36,7 +32,9 @@ if (module.hot) {
 sagaMiddleware.run(rootSaga);
 <% } %>
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('root'));
+
+root.render(
   <Router>
 <% if (flags.addRedux) { %>
     <Provider store={store}>
@@ -45,6 +43,5 @@ ReactDOM.render(
 <% } else { %>
     <App />
 <% } %>
-  </Router>,
-  document.getElementById('root')
-);
+  </Router>
+)
