@@ -2,7 +2,18 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [v0.5.1](https://github.com/ayan4m1/generator-reackt/compare/v0.5.0...v0.5.1)
+
+- fix stylelint [`bb2ff2b`](https://github.com/ayan4m1/generator-reackt/commit/bb2ff2b63167df7507ec24c02f8486a5dad6c03f)
+- chore: dep upgrades and es module fixes [`76b8c1d`](https://github.com/ayan4m1/generator-reackt/commit/76b8c1d24d6739e47db81aaa7362dc5add91d24c)
+- upgrade to husky 9, react 18, and remove icons.js [`d6d508e`](https://github.com/ayan4m1/generator-reackt/commit/d6d508e69fb8f46179b080c7d92984d9f5687daa)
+- fix stylelint rules [`44514e9`](https://github.com/ayan4m1/generator-reackt/commit/44514e9ad2f5b481919f5ace045afc749f45c278)
+- fix dirname [`163f60d`](https://github.com/ayan4m1/generator-reackt/commit/163f60d1de637507a4b70ea1015235c408cb6260)
+- add husky prepare script [`62667c1`](https://github.com/ayan4m1/generator-reackt/commit/62667c1ac40e99aa3d338083f605d599ee6fb4a7)
+
 #### [v0.5.0](https://github.com/ayan4m1/generator-reackt/compare/v0.4.1...v0.5.0)
+
+> 25 February 2023
 
 - stop using babel, switch to be an es module [`2016c85`](https://github.com/ayan4m1/generator-reackt/commit/2016c85ee60da9c148ee7d663cd80fd886dc72c5)
 - upgrade dependencies [`f149229`](https://github.com/ayan4m1/generator-reackt/commit/f14922965277f949665c3532f8fc4af46c495bde)
