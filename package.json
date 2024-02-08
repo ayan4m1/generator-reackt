@@ -23,7 +23,8 @@
     "redux"
   ],
   "scripts": {
-    "version": "auto-changelog -l false -p --hide-credit && git add CHANGELOG.md"
+    "version": "auto-changelog -l false -p --hide-credit && git add CHANGELOG.md",
+    "prepare": "husky"
   },
   "engines": {
     "node": ">=16"
