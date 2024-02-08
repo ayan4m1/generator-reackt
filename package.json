@@ -43,7 +43,7 @@
     "mkdirp": "^3.0.1",
     "spdx-license-ids": "^3.0.16",
     "yeoman-generator": "^4.13.0",
-    "yeoman-stylelint": "^0.1.3"
+    "yeoman-stylelint": "^1.0.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.23.10",
@@ -54,6 +54,10 @@
     "eslint-plugin-prettier": "^5.1.3",
     "husky": "^9.0.10",
     "lint-staged": "^15.2.2",
-    "prettier": "^3.2.5"
+    "postcss": "^8.4.35",
+    "postcss-scss": "^4.0.9",
+    "prettier": "^3.2.5",
+    "stylelint": "^16.2.1",
+    "stylelint-config-recommended": "^14.0.0"
   }
 }
