@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 <% } %>
 
-export default function App() {
+export <% if (!flags.addRedux) { %> default <% } %> function App() {
   return <h1>Hello World</h1>;
 }
 
