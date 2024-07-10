@@ -2,7 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [v0.6.0](https://github.com/ayan4m1/generator-reackt/compare/v0.5.1...v0.6.0)
+
+- chore: upgrade deps [`b5e291e`](https://github.com/ayan4m1/generator-reackt/commit/b5e291e04711eba45174203b7b79753a4a59b077)
+- feat: simplify eslint rules [`01ed59d`](https://github.com/ayan4m1/generator-reackt/commit/01ed59de61ccc19a008a87afa4a44a3604e0cb67)
+- fix: multiple default exports if redux is enabled [`18d9142`](https://github.com/ayan4m1/generator-reackt/commit/18d91421033ed1f413f76bbf0bff1ba450b4d9d6)
+
 #### [v0.5.1](https://github.com/ayan4m1/generator-reackt/compare/v0.5.0...v0.5.1)
+
+> 8 February 2024
 
 - fix stylelint [`bb2ff2b`](https://github.com/ayan4m1/generator-reackt/commit/bb2ff2b63167df7507ec24c02f8486a5dad6c03f)
 - chore: dep upgrades and es module fixes [`76b8c1d`](https://github.com/ayan4m1/generator-reackt/commit/76b8c1d24d6739e47db81aaa7362dc5add91d24c)
