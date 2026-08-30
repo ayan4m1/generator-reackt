@@ -41,15 +41,12 @@ const packages: Record<string, string[]> = {
   lintStaged: ['husky', 'lint-staged'],
   redux: ['redux', 'react-redux', 'redux-saga'],
   reduxJest: ['redux-mock-store'],
-  rtl: [],
+  rtl: ['@testing-library/react', '@testing-library/dom'],
   core: [
-    '@babel/runtime-corejs3',
-    'core-js@3',
     'normalize-scss',
-    'prop-types',
     'react',
     'react-dom',
-    'react-router-dom',
+    'react-router-dom@6',
     'reselect',
     'classnames'
   ],
@@ -65,35 +62,25 @@ const packages: Record<string, string[]> = {
     'esdoc-standard-plugin',
     'opener'
   ],
-  jest: [
-    'babel-jest',
-    'eslint-plugin-jest',
-    'jest',
-    'react-test-renderer',
-    'opener'
-  ],
+  jest: ['eslint-plugin-jest', 'jest', 'react-test-renderer', 'opener'],
   dev: [
-    '@babel/core',
-    '@babel/eslint-parser',
-    '@babel/plugin-transform-runtime',
-    '@babel/preset-env',
-    '@babel/preset-react',
-    '@babel/register',
+    '@eslint/js@9',
+    '@types/react',
+    '@types/react-dom',
     'autoprefixer',
-    'babel-loader',
     'clean-webpack-plugin',
     'cross-env',
     'css-loader',
     'css-minimizer-webpack-plugin',
     'eslint-config-prettier',
     'eslint-import-resolver-webpack',
-    'eslint-plugin-import',
-    'eslint-plugin-jsx-a11y',
+    'eslint-plugin-import-x',
     'eslint-plugin-prettier',
     'eslint-plugin-react-hooks',
     'eslint-plugin-react',
     'eslint-webpack-plugin',
-    'eslint',
+    'eslint@9',
+    'globals',
     'html-loader',
     'html-webpack-plugin',
     'mini-css-extract-plugin',
@@ -108,6 +95,8 @@ const packages: Record<string, string[]> = {
     'stylelint-webpack-plugin',
     'stylelint',
     'terser-webpack-plugin',
+    'typescript@6',
+    'typescript-eslint',
     'webpack-cli',
     'webpack',
     'webpack-dev-server'
@@ -115,21 +104,19 @@ const packages: Record<string, string[]> = {
 };
 const files = {
   core: [
-    '.babelrc',
     '.prettierrc',
     '.stylelintrc',
     '.editorconfig',
-    'jsconfig.json',
+    'tsconfig.json',
     '.browserslistrc',
     src('utils', 'index.js')
   ],
   templated: [
     '.eslintrc.js',
-    'package.json',
     src('index.js'),
     src('index.html'),
     src('index.scss'),
-    'webpack.config.babel.js'
+    'webpack.config.ts'
   ],
   esdoc: ['.esdoc.json'],
   jest: ['jest.config.js'],
@@ -304,6 +291,8 @@ export default class extends Generator implements CustomGenerator {
     files.core.forEach(this.fileSystem.copy);
     files.templated.forEach(this.fileSystem.copyTemplateInPlace);
     directories.core.forEach(this.fileSystem.copyDirectory);
+    this.fileSystem.copyTemplate('_package.json', 'package.json');
+    this.fileSystem.copyTemplate('_eslint.config.mjs', 'eslint.config.mjs');
 
     // this is a workaround for npm not packaging up .gitignore files
     this.fileSystem.copyTo('gitignore', '.gitignore');
@@ -384,8 +373,8 @@ export default class extends Generator implements CustomGenerator {
     );
     this.log(`Dependencies: ${main.join(' ')}
 Dev dependencies: ${dev.join(' ')}`);
-    this.npmInstall(main, { save: true });
-    this.npmInstall(dev, { 'save-dev': true });
+    this.yarnInstall(main);
+    this.yarnInstall(dev, { dev: true });
     this.spawnCommandSync('git', ['init']);
     this.spawnCommandSync('npx', ['husky', 'init']);
     this.spawnCommandSync('bash', [

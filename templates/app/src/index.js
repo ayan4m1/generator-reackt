@@ -32,7 +32,13 @@ if (module.hot) {
 sagaMiddleware.run(rootSaga);
 <% } %>
 
-const root = createRoot(document.getElementById('root'));
+const rootElem = document.getElementById('root');
+
+if (!rootElem) {
+  return;
+}
+
+const root = createRoot(rootElem);
 
 root.render(
   <Router>
