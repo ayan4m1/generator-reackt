@@ -1,12 +1,9 @@
-import React, { Component } from 'react';
 <% if (flags.addRedux) { %>
 import { connect } from 'react-redux';
 <% } %>
 
-export class <%= component.name %> extends Component {
-  render() {
-    return <h1>Hello World</h1>;
-  }
+export default function <%= component.name %>() {
+  return <h1>Hello World</h1>;
 }
 
 <% if (flags.addRedux) { %>
