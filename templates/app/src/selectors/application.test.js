@@ -7,7 +7,7 @@ describe('application selectors', () => {
     }
   };
 
-  it('getApplication', () => {
+  it('can getApplication', () => {
     expect(getApplication(state)).toBe(state.application);
   });
 });
