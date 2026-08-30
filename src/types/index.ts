@@ -18,6 +18,9 @@ export type ModuleAnswers = {
   component: {
     name?: string;
   };
+  deploy: {
+    domain?: string;
+  };
   module: {
     name?: string;
   };
@@ -39,6 +42,7 @@ export type Flags = {
   addRedux?: boolean;
   addSaga?: boolean;
   addStorybook?: boolean;
+  deployDomain?: boolean;
   createSaga?: boolean;
   createSelector?: boolean;
   createReducer?: boolean;

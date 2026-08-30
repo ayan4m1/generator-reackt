@@ -18,6 +18,7 @@ export default class extends Generator implements CustomGenerator {
 
     this.answers = {
       component: {},
+      deploy: {},
       module: {},
       package: {},
       author: {},

@@ -154,6 +154,7 @@ export default class extends Generator implements CustomGenerator {
 
     this.answers = {
       component: {},
+      deploy: {},
       module: {},
       package: {},
       author: {},
@@ -196,7 +197,7 @@ export default class extends Generator implements CustomGenerator {
       this.git.email()
     ]);
 
-    this.answers = (await this.prompt([
+    this.answers = await this.prompt<ModuleAnswers>([
       {
         type: 'input',
         name: 'package.name',
@@ -246,6 +247,17 @@ export default class extends Generator implements CustomGenerator {
       },
       {
         type: 'confirm',
+        name: 'flags.deployDomain',
+        message: 'Deploying to GitHub Pages with CNAME?',
+        default: true
+      },
+      {
+        type: 'input',
+        name: 'deploy.domain',
+        message: 'Hostname to deploy to'
+      },
+      {
+        type: 'confirm',
         name: 'flags.addLintStaged',
         message: 'Force linting before commits?',
         default: true
@@ -280,7 +292,7 @@ export default class extends Generator implements CustomGenerator {
         message: 'Add ESDoc?',
         default: false
       }
-    ])) as unknown as ModuleAnswers;
+    ]);
   }
 
   async writing() {
@@ -313,7 +325,7 @@ export default class extends Generator implements CustomGenerator {
     // these are underscored to prevent them being picked up by ESLint
     this.fileSystem.copyTemplate('_package.json', 'package.json');
     this.fileSystem.copyTemplate('_eslint.config.mjs', 'eslint.config.mjs');
-    this.fileSystem.copyTo('webpack.config.nts', 'webpack.config.ts');
+    this.fileSystem.copyTemplate('webpack.config.nts', 'webpack.config.ts');
 
     // this is a workaround for npm not packaging up .gitignore files
     this.fileSystem.copyTo('gitignore', '.gitignore');

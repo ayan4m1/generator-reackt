@@ -23,9 +23,11 @@ const plugins: WebpackPluginInstance[] = [
     template: './src/index.html'
   }),
   new MiniCssExtractPlugin(),
+  <% if (flags.deployDomain) { %>
   new CnameWebpackPlugin({
-    domain: 'pachinko.andrewdelisa.com'
+    domain: '<%= deploy.domain %>'
   }),
+  <% } %>
   new CopyPlugin({
     patterns: [{ from: './src/assets' }]
   })
