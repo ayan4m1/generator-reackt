@@ -36,5 +36,16 @@ export default defineConfig(
       globals: globals.node
     }
   },
+  <% if (flags.addJest) { %>
+  {
+    files: ['./src/**/*.test.js'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.jest
+      }
+    }
+  },
+  <% } %>
   prettierPlugin
 );

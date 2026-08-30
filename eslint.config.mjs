@@ -6,7 +6,7 @@ import eslintPluginPrettier from 'eslint-plugin-prettier/recommended';
 /** @type {import('@typescript-eslint/utils').TSESLint.FlatConfig.ConfigFile} */
 export default [
   {
-    ignores: ['templates/**/*']
+    ignores: ['templates/**/*', 'generators/**/*']
   },
   eslint.configs.recommended,
   ...configs.recommended,

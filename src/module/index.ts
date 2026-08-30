@@ -1,11 +1,11 @@
 import { join } from 'path';
-import { fileURLToPath } from 'url';
-import Generator, { GeneratorOptions } from 'yeoman-generator';
+import Generator, {
+  type BaseFeatures,
+  type BaseOptions
+} from 'yeoman-generator';
 
 import fileSystem from '../util/fs.js';
-import { CustomGenerator, FS, ModuleAnswers } from '../types';
-
-const __dirname = fileURLToPath(import.meta.url);
+import { CustomGenerator, FS, ModuleAnswers } from '../types/index.js';
 
 const src = (...paths: string[]) => join('src', ...paths);
 
@@ -13,10 +13,9 @@ export default class extends Generator implements CustomGenerator {
   answers: ModuleAnswers;
   fileSystem: FS;
 
-  constructor(args: string[], options: GeneratorOptions) {
-    super(args, options);
+  constructor(args: string[], options: BaseOptions, features?: BaseFeatures) {
+    super(args, options, features);
 
-    this.sourceRoot(join(__dirname, '..', '..', 'templates', 'module'));
     this.answers = {
       component: {},
       module: {},
@@ -25,17 +24,18 @@ export default class extends Generator implements CustomGenerator {
       flags: {}
     };
     this.fileSystem = fileSystem(this);
+    this.sourceRoot(this.fileSystem.resolve('templates', 'module'));
   }
 
   async prompting() {
-    this.answers = await this.prompt([
+    this.answers = (await this.prompt([
       {
         type: 'input',
         name: 'module.name',
         message: 'Module name'
       },
       {
-        type: 'list',
+        type: 'select',
         name: 'directoryMode',
         message: 'Choose a way of structuring the module.',
         choices: [
@@ -75,7 +75,7 @@ export default class extends Generator implements CustomGenerator {
         message: 'Generate test files?',
         default: true
       }
-    ]);
+    ])) as unknown as ModuleAnswers;
   }
 
   async writing() {
@@ -85,12 +85,17 @@ export default class extends Generator implements CustomGenerator {
       flags
     } = this.answers;
 
+    if (!name) {
+      this.log('ERROR: No module name provided!');
+      return;
+    }
+
     this.log(`Creating module ${name}`);
 
     const buildPaths = (ext: string) => {
       const namePath = `${name}${ext}`;
       const indexPath = `index${ext}`;
-      const destPath = [];
+      const destPath: string[] = [];
 
       switch (directoryMode) {
         default:

@@ -5,9 +5,11 @@ import { format } from 'date-fns';
 import prettier from 'gulp-prettier';
 import { readFileSync } from 'jsonfile';
 import stylelint from 'yeoman-stylelint';
-import inquirerPrompt from 'inquirer-autocomplete-prompt';
 import spdxIdentifiers from 'spdx-license-ids' with { type: 'json' };
-import Generator, { GeneratorOptions } from 'yeoman-generator';
+import Generator, {
+  type BaseFeatures,
+  type BaseOptions
+} from 'yeoman-generator';
 
 import fileSystem from '../util/fs';
 import { CustomGenerator, FS, ModuleAnswers } from '../types';
@@ -16,6 +18,16 @@ spdxIdentifiers.push('SEE LICENSE IN LICENSE');
 spdxIdentifiers.sort();
 
 const src = (...paths: string[]) => join('src', ...paths);
+
+// addDependencies pins exact versions, so restore the caret ranges that
+// yarn add used to write
+const caretRange = (deps: Record<string, string>) =>
+  Object.fromEntries(
+    Object.entries(deps).map(([name, version]) => [
+      name,
+      /^\d/.test(version) ? `^${version}` : version
+    ])
+  );
 
 const styleFrameworks = [
   { value: null, name: 'None' },
@@ -32,7 +44,7 @@ const packages: Record<string, string[]> = {
     '@fortawesome/free-solid-svg-icons',
     '@fortawesome/react-fontawesome'
   ],
-  bootstrap: ['bootstrap', 'react-bootstrap'],
+  bootstrap: ['bootstrap', 'react-bootstrap', '@popperjs/core'],
   uikit: ['uikit', 'uikit-react'],
   foundation: ['foundation-sites'],
   materialize: ['materialize-css'],
@@ -73,7 +85,7 @@ const packages: Record<string, string[]> = {
     'css-loader',
     'css-minimizer-webpack-plugin',
     'eslint-config-prettier',
-    'eslint-import-resolver-webpack',
+    'eslint-import-resolver-typescript',
     'eslint-plugin-import-x',
     'eslint-plugin-prettier',
     'eslint-plugin-react-hooks',
@@ -84,6 +96,7 @@ const packages: Record<string, string[]> = {
     'html-loader',
     'html-webpack-plugin',
     'mini-css-extract-plugin',
+    'postcss',
     'postcss-flexbugs-fixes',
     'postcss-loader',
     'postcss-scss',
@@ -104,6 +117,7 @@ const packages: Record<string, string[]> = {
 };
 const files = {
   core: [
+    '.yarnrc.yml',
     '.prettierrc',
     '.stylelintrc',
     '.editorconfig',
@@ -111,13 +125,7 @@ const files = {
     '.browserslistrc',
     src('utils', 'index.js')
   ],
-  templated: [
-    '.eslintrc.js',
-    src('index.js'),
-    src('index.html'),
-    src('index.scss'),
-    'webpack.config.ts'
-  ],
+  templated: [src('index.js'), src('index.html'), src('index.scss')],
   esdoc: ['.esdoc.json'],
   jest: ['jest.config.js'],
   lintStaged: ['.lintstagedrc']
@@ -141,13 +149,8 @@ export default class extends Generator implements CustomGenerator {
   answers: ModuleAnswers;
   fileSystem: FS;
 
-  constructor(args: string[], options: GeneratorOptions) {
-    super(args, options);
-
-    this.env.adapter.promptModule.registerPrompt(
-      'autocomplete',
-      inquirerPrompt
-    );
+  constructor(args: string[], options: BaseOptions, features?: BaseFeatures) {
+    super(args, options, features);
 
     this.answers = {
       component: {},
@@ -158,13 +161,26 @@ export default class extends Generator implements CustomGenerator {
     };
     this.fileSystem = fileSystem(this);
     this.sourceRoot(this.fileSystem.resolve('templates', 'app'));
-    this.registerTransformStream(
+  }
+
+  initializing() {
+    // the environment reads this lazily when it drains the install queue, so
+    // setting it here is enough to keep yarn as the package manager
+    (
+      this.env as unknown as { options: { nodePackageManager?: string } }
+    ).options.nodePackageManager = 'yarn';
+    // disable age gate for initial yarn install
+    process.env.YARN_NPM_MINIMAL_AGE_GATE = '0';
+
+    this.queueTransformStream(
+      {},
       gulpIf(
         /\.js$/,
         prettier(readFileSync(this.fileSystem.resolve('.prettierrc')))
       )
     );
-    this.registerTransformStream(
+    this.queueTransformStream(
+      {},
       gulpIf(
         /\.scss$/,
         stylelint({
@@ -175,9 +191,12 @@ export default class extends Generator implements CustomGenerator {
   }
 
   async prompting() {
-    const { name, email } = this.user.git;
+    const [name, email] = await Promise.all([
+      this.git.name(),
+      this.git.email()
+    ]);
 
-    this.answers = await this.prompt([
+    this.answers = (await this.prompt([
       {
         type: 'input',
         name: 'package.name',
@@ -191,17 +210,15 @@ export default class extends Generator implements CustomGenerator {
         default: '0.1.0'
       },
       {
-        type: 'autocomplete',
+        type: 'search',
         name: 'package.license',
         message: 'Package license',
-        source: (_: unknown, input: string) => {
-          const pattern = new RegExp(`.*${input}.*`, 'i');
+        source: (term: string | undefined) => {
+          const pattern = new RegExp(`.*${term ?? ''}.*`, 'i');
 
-          return new Promise((resolve) => {
-            resolve(
-              spdxIdentifiers.filter((identifier) => pattern.test(identifier))
-            );
-          });
+          return spdxIdentifiers.filter((identifier) =>
+            pattern.test(identifier)
+          );
         }
       },
       {
@@ -213,16 +230,16 @@ export default class extends Generator implements CustomGenerator {
         type: 'input',
         name: 'author.name',
         message: 'Author name',
-        default: name()
+        default: name
       },
       {
         type: 'input',
         name: 'author.email',
         message: 'Author email address',
-        default: email()
+        default: email
       },
       {
-        type: 'list',
+        type: 'select',
         name: 'styleFramework',
         message: 'What CSS framework would you like to use?',
         choices: styleFrameworks
@@ -263,12 +280,13 @@ export default class extends Generator implements CustomGenerator {
         message: 'Add ESDoc?',
         default: false
       }
-    ]);
+    ])) as unknown as ModuleAnswers;
   }
 
   async writing() {
     const {
       flags,
+      styleFramework,
       package: { license },
       author: { name, email }
     } = this.answers;
@@ -295,6 +313,7 @@ export default class extends Generator implements CustomGenerator {
     // these are underscored to prevent them being picked up by ESLint
     this.fileSystem.copyTemplate('_package.json', 'package.json');
     this.fileSystem.copyTemplate('_eslint.config.mjs', 'eslint.config.mjs');
+    this.fileSystem.copyTo('webpack.config.nts', 'webpack.config.ts');
 
     // this is a workaround for npm not packaging up .gitignore files
     this.fileSystem.copyTo('gitignore', '.gitignore');
@@ -325,20 +344,14 @@ export default class extends Generator implements CustomGenerator {
 
     if (flags.addLintStaged) {
       files.lintStaged.forEach(this.fileSystem.copy);
+      this.fileSystem.createFile('.husky/pre-commit', 'npx lint-staged\n');
     }
-  }
 
-  install() {
-    const main: string[] = [];
-    const dev: string[] = [];
-    const { flags, styleFramework } = this.answers;
+    const main: string[] = [...packages.core];
+    const dev: string[] = [...packages.dev];
 
-    this.log('Building a list of packages to install');
-
-    main.push(...packages.core);
-    dev.push(...packages.dev);
-
-    if (styleFramework !== undefined) {
+    // the "None" choice carries a null value, so a truthy check is what skips it
+    if (styleFramework) {
       main.push(...packages[styleFramework]);
     }
 
@@ -371,17 +384,34 @@ export default class extends Generator implements CustomGenerator {
     }
 
     this.log(
-      `Getting ready to install ${main.length} dependencies and ${dev.length} dev dependencies.`
+      `Resolving ${main.length} dependencies and ${dev.length} dev dependencies.`
     );
-    this.log(`Dependencies: ${main.join(' ')}
-Dev dependencies: ${dev.join(' ')}`);
-    this.yarnInstall(main);
-    this.yarnInstall(dev, { dev: true });
-    this.spawnCommandSync('git', ['init']);
-    this.spawnCommandSync('npx', ['husky', 'init']);
-    this.spawnCommandSync('bash', [
-      '-c',
-      'echo "npx lint-staged" > .husky/pre-commit'
+
+    const [dependencies, devDependencies] = await Promise.all([
+      this.addDependencies(main),
+      this.addDevDependencies(dev)
     ]);
+
+    this.packageJson.merge({
+      dependencies: caretRange(dependencies),
+      devDependencies: caretRange(devDependencies)
+    });
+  }
+
+  install() {
+    // must run before the environment's package manager install task, which is
+    // queued lazily once package.json is committed to disk - otherwise yarn
+    // installs with the wrong version.
+    this.spawnSync('yarn', ['set', 'version', 'stable'], { stdio: 'inherit' });
+  }
+
+  async end() {
+    const { flags } = this.answers;
+
+    this.spawnSync('git', ['init'], { stdio: 'inherit' });
+
+    if (flags.addLintStaged) {
+      this.spawnSync('npx', ['husky'], { stdio: 'inherit' });
+    }
   }
 }

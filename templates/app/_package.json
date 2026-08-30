@@ -5,6 +5,9 @@
   "author": "<%= author.name %> <<%= author.email %>>",
   "license": "<%= package.license %>",
   "scripts": {
+    <% if (flags.addLintStaged) { %>
+      "prepare": "husky",
+    <% } %>
     <% if (flags.addStorybook) { %>
     "storybook": "start-storybook",
     <% } %>

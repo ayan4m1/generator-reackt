@@ -1,4 +1,4 @@
-import { buildActions } from 'utils';
+import { buildActions } from '../utils';
 
 export const types = buildActions('application', ['INIT_APP']);
 
@@ -18,4 +18,3 @@ export const reducer = (state = initialState, action = {}) => {
       return state;
   }
 };
-

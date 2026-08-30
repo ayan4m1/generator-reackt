@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "module": "esnext",
+    "moduleResolution": "bundler",
     "rootDir": "."
   }
 }

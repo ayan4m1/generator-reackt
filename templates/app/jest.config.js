@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.js', '!src/*.js'],
   coverageDirectory: './coverage',

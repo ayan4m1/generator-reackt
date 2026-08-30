@@ -1,11 +1,11 @@
 import { join } from 'path';
-import { fileURLToPath } from 'url';
-import Generator, { GeneratorOptions } from 'yeoman-generator';
+import Generator, {
+  type BaseFeatures,
+  type BaseOptions
+} from 'yeoman-generator';
 
 import fileSystem from '../util/fs.js';
 import { CustomGenerator, FS, ModuleAnswers } from '../types/index.js';
-
-const __dirname = fileURLToPath(import.meta.url);
 
 const src = (...paths: string[]) => join('src', ...paths);
 
@@ -13,10 +13,9 @@ export default class extends Generator implements CustomGenerator {
   answers: ModuleAnswers;
   fileSystem: FS;
 
-  constructor(args: string[], options: GeneratorOptions) {
-    super(args, options);
+  constructor(args: string[], options: BaseOptions, features?: BaseFeatures) {
+    super(args, options, features);
 
-    this.sourceRoot(join(__dirname, '..', '..', 'templates', 'component'));
     this.answers = {
       component: {},
       module: {},
@@ -25,10 +24,11 @@ export default class extends Generator implements CustomGenerator {
       flags: {}
     };
     this.fileSystem = fileSystem(this);
+    this.sourceRoot(this.fileSystem.resolve('templates', 'component'));
   }
 
   async prompting() {
-    this.answers = await this.prompt([
+    this.answers = (await this.prompt([
       {
         type: 'input',
         name: 'component.name',
@@ -40,7 +40,7 @@ export default class extends Generator implements CustomGenerator {
         message: 'Connect this component to the Redux store?',
         default: false
       }
-    ]);
+    ])) as unknown as ModuleAnswers;
   }
 
   async writing() {

@@ -39,6 +39,7 @@ export type Flags = {
   addRedux?: boolean;
   addSaga?: boolean;
   addStorybook?: boolean;
+  createSaga?: boolean;
   createSelector?: boolean;
   createReducer?: boolean;
 };
