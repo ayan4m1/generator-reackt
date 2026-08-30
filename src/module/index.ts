@@ -1,23 +1,29 @@
-import { join, dirname } from 'path';
-import { createRequire } from 'module';
+import { join } from 'path';
 import { fileURLToPath } from 'url';
+import Generator, { GeneratorOptions } from 'yeoman-generator';
 
 import fileSystem from '../util/fs.js';
+import { CustomGenerator, FS, ModuleAnswers } from '../types';
 
-// we cannot use ES6 imports on this object, as it directly exports a class to
-// module.exports - no default export nor a named export is present for us to use
-const require = createRequire(import.meta.url);
 const __dirname = fileURLToPath(import.meta.url);
-const Generator = require('yeoman-generator');
 
-const src = (...paths) => join('src', ...paths);
+const src = (...paths: string[]) => join('src', ...paths);
 
-export default class extends Generator {
-  constructor(...args) {
-    super(...args);
+export default class extends Generator implements CustomGenerator {
+  answers: ModuleAnswers;
+  fileSystem: FS;
+
+  constructor(args: string[], options: GeneratorOptions) {
+    super(args, options);
 
     this.sourceRoot(join(__dirname, '..', '..', 'templates', 'module'));
-    this.answers = {};
+    this.answers = {
+      component: {},
+      module: {},
+      package: {},
+      author: {},
+      flags: {}
+    };
     this.fileSystem = fileSystem(this);
   }
 
@@ -81,7 +87,7 @@ export default class extends Generator {
 
     this.log(`Creating module ${name}`);
 
-    const buildPaths = (ext) => {
+    const buildPaths = (ext: string) => {
       const namePath = `${name}${ext}`;
       const indexPath = `index${ext}`;
       const destPath = [];

@@ -1,27 +1,21 @@
 import { got } from 'got';
 import { join } from 'path';
 import gulpIf from 'gulp-if';
-import jsonfile from 'jsonfile';
 import { format } from 'date-fns';
 import prettier from 'gulp-prettier';
-import { createRequire } from 'module';
+import { readFileSync } from 'jsonfile';
 import stylelint from 'yeoman-stylelint';
 import inquirerPrompt from 'inquirer-autocomplete-prompt';
-import spdxIdentifiers from 'spdx-license-ids' assert { type: 'json' };
+import spdxIdentifiers from 'spdx-license-ids' with { type: 'json' };
+import Generator, { GeneratorOptions } from 'yeoman-generator';
 
-import fileSystem from '../util/fs.js';
+import fileSystem from '../util/fs';
+import { CustomGenerator, FS, ModuleAnswers } from '../types';
 
 spdxIdentifiers.push('SEE LICENSE IN LICENSE');
 spdxIdentifiers.sort();
 
-const { readFileSync } = jsonfile;
-
-// we cannot use ES6 imports on this object, as it directly exports a class to
-// module.exports - no default export nor a named export is present for us to use
-const require = createRequire(import.meta.url);
-const Generator = require('yeoman-generator');
-
-const src = (...paths) => join('src', ...paths);
+const src = (...paths: string[]) => join('src', ...paths);
 
 const styleFrameworks = [
   { value: null, name: 'None' },
@@ -32,7 +26,7 @@ const styleFrameworks = [
   { value: 'uikit', name: 'UIKit' },
   { value: 'materialUi', name: 'Material-UI' }
 ];
-const packages = {
+const packages: Record<string, string[]> = {
   fontAwesome: [
     '@fortawesome/fontawesome-svg-core',
     '@fortawesome/free-solid-svg-icons',
@@ -47,6 +41,7 @@ const packages = {
   lintStaged: ['husky', 'lint-staged'],
   redux: ['redux', 'react-redux', 'redux-saga'],
   reduxJest: ['redux-mock-store'],
+  rtl: [],
   core: [
     '@babel/runtime-corejs3',
     'core-js@3',
@@ -155,16 +150,25 @@ const scripts = {
   }
 };
 
-export default class extends Generator {
-  constructor(...args) {
-    super(...args);
+export default class extends Generator implements CustomGenerator {
+  answers: ModuleAnswers;
+  fileSystem: FS;
+
+  constructor(args: string[], options: GeneratorOptions) {
+    super(args, options);
 
     this.env.adapter.promptModule.registerPrompt(
       'autocomplete',
       inquirerPrompt
     );
 
-    this.answers = {};
+    this.answers = {
+      component: {},
+      module: {},
+      package: {},
+      author: {},
+      flags: {}
+    };
     this.fileSystem = fileSystem(this);
     this.sourceRoot(this.fileSystem.resolve('templates', 'app'));
     this.registerTransformStream(
@@ -203,7 +207,7 @@ export default class extends Generator {
         type: 'autocomplete',
         name: 'package.license',
         message: 'Package license',
-        source: (_, input) => {
+        source: (_: unknown, input: string) => {
           const pattern = new RegExp(`.*${input}.*`, 'i');
 
           return new Promise((resolve) => {
@@ -334,45 +338,45 @@ export default class extends Generator {
   }
 
   install() {
-    const main = [];
-    const dev = [];
+    const main: string[] = [];
+    const dev: string[] = [];
     const { flags, styleFramework } = this.answers;
 
     this.log('Building a list of packages to install');
 
-    main.push.apply(main, packages.core);
-    dev.push.apply(dev, packages.dev);
+    main.push(...packages.core);
+    dev.push(...packages.dev);
 
-    if (styleFramework !== null) {
-      main.push.apply(main, packages[styleFramework]);
+    if (styleFramework !== undefined) {
+      main.push(...packages[styleFramework]);
     }
 
     if (flags.addLintStaged) {
-      dev.push.apply(dev, packages.lintStaged);
+      dev.push(...packages.lintStaged);
     }
 
     if (flags.addFontAwesome) {
-      main.push.apply(main, packages.fontAwesome);
+      main.push(...packages.fontAwesome);
     }
 
     if (flags.addRedux) {
-      main.push.apply(main, packages.redux);
+      main.push(...packages.redux);
     }
 
     if (flags.addJest) {
-      dev.push.apply(dev, packages.jest);
+      dev.push(...packages.jest);
     }
 
     if (flags.addRedux && flags.addJest) {
-      dev.push.apply(dev, packages.reduxJest);
+      dev.push(...packages.reduxJest);
     }
 
     if (flags.addStorybook) {
-      dev.push.apply(dev, packages.storybook);
+      dev.push(...packages.storybook);
     }
 
     if (flags.addESDoc) {
-      main.push.apply(main, packages.esdoc);
+      main.push(...packages.esdoc);
     }
 
     this.log(
