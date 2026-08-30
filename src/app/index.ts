@@ -291,6 +291,8 @@ export default class extends Generator implements CustomGenerator {
     files.core.forEach(this.fileSystem.copy);
     files.templated.forEach(this.fileSystem.copyTemplateInPlace);
     directories.core.forEach(this.fileSystem.copyDirectory);
+
+    // these are underscored to prevent them being picked up by ESLint
     this.fileSystem.copyTemplate('_package.json', 'package.json');
     this.fileSystem.copyTemplate('_eslint.config.mjs', 'eslint.config.mjs');
 
