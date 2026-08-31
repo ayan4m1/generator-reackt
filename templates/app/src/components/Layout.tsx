@@ -12,16 +12,12 @@ export default function Layout() {
         <Container>
           <Navbar.Brand>
             <Nav.Link as={Link} to="/">
-              pachinko
+              app
             </Nav.Link>
           </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
-            <Nav>
-              <Nav.Link as={Link} to="/play">
-                <FontAwesomeIcon icon={faGamepad} /> Play
-              </Nav.Link>
-            </Nav>
+            <Nav></Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
@@ -32,6 +28,8 @@ export default function Layout() {
   );
 }
 <% } else { %>
+import { Outlet } from 'react-router-dom';
+
 export default function Layout() {
   return (
     <div style={{ height: '100vh', width: '100%' }}>
