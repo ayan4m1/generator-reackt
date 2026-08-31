@@ -63,7 +63,11 @@ const config: Configuration = {
       {
         test: /\.tsx?$/,
         use: ['ts-loader'],
-        exclude: /node_modules/
+        exclude: [
+          'src/**/*.stories.tsx',
+          'src/**/*.stories.ts',
+          /node_modules/
+        ]
       },
       {
         test: /\.(sa|sc|c)ss$/,
