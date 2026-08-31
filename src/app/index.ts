@@ -250,7 +250,7 @@ export default class extends Generator implements CustomGenerator {
         type: 'confirm',
         name: 'flags.deployDomain',
         message: 'Deploying to GitHub Pages with CNAME?',
-        default: true
+        default: false
       },
       {
         type: 'input',
@@ -273,13 +273,13 @@ export default class extends Generator implements CustomGenerator {
         type: 'confirm',
         name: 'flags.addRedux',
         message: 'Add Redux?',
-        default: true
+        default: false
       },
       {
         type: 'confirm',
         name: 'flags.addJest',
         message: 'Add Jest?',
-        default: true
+        default: false
       },
       {
         type: 'confirm',
