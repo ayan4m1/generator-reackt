@@ -4,7 +4,9 @@ import autoprefixer from 'autoprefixer';
 import HtmlPlugin from 'html-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
+<% if (flags.deployDomain) { %>
 import CnameWebpackPlugin from 'cname-webpack-plugin';
+<% } %>
 import StylelintPlugin from 'stylelint-webpack-plugin';
 import postcssFlexbugsFixes from 'postcss-flexbugs-fixes';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
