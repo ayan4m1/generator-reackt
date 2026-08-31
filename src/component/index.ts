@@ -55,12 +55,12 @@ export default class extends Generator implements CustomGenerator {
       flags,
       component: { name }
     } = this.answers;
-    const fileName = src('components', `${name}.js`);
-    const testName = src('components', `${name}.test.js`);
+    const fileName = src('components', `${name}.tsx`);
+    const testName = src('components', `${name}.test.tsx`);
 
     this.log(`Creating ${name} component`);
-    this.fileSystem.copyTemplate('index.js', fileName);
-    this.fileSystem.copyTemplate('index.test.js', testName);
+    this.fileSystem.copyTemplate('index.tsx', fileName);
+    this.fileSystem.copyTemplate('index.test.tsx', testName);
 
     if (flags.addStorybook) {
       this.fileSystem.copyTemplate(
