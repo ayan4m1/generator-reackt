@@ -5,5 +5,5 @@
     "rootDir": ".",
     "types": ["jest"]
   },
-  "include": ["src/"]
+  "include": ["src/", ".storybook/"]
 }

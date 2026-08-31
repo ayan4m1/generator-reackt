@@ -31,7 +31,7 @@ export default defineConfig(
     }
   },
   {
-    files: ['webpack.config.*'],
+    files: ['webpack.config.*', '.storybook/*.ts'],
     languageOptions: {
       globals: globals.node
     }

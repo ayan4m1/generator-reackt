@@ -8,9 +8,6 @@
     <% if (flags.addLintStaged) { %>
       "prepare": "husky",
     <% } %>
-    <% if (flags.addStorybook) { %>
-    "storybook": "start-storybook",
-    <% } %>
     <% if (flags.addJest) { %>
     "test": "jest",
     <% } %>

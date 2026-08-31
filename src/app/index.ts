@@ -62,9 +62,14 @@ const packages: Record<string, string[]> = {
     'classnames'
   ],
   storybook: [
-    '@storybook/react',
-    '@storybook/builder-webpack5',
-    '@storybook/manager-webpack5'
+    'storybook@10',
+    '@storybook/react-vite@10',
+    '@storybook/addon-docs@10',
+    '@storybook/addon-a11y@10',
+    '@storybook/addon-links@10',
+    '@storybook/addon-themes@10',
+    '@vitejs/plugin-react',
+    'vite'
   ],
   esdoc: [
     'esdoc',
@@ -123,14 +128,10 @@ const files = {
     'tsconfig.json',
     '.browserslistrc'
   ],
-  templated: [
-    src('index.tsx'),
-    src('index.html'),
-    src('index.scss'),
-    src('utils', 'index.ts')
-  ],
+  templated: [src('index.tsx'), src('index.html'), src('utils', 'index.ts')],
   esdoc: ['.esdoc.json'],
   jest: ['jest.config.js'],
+  storybook: [join('.storybook', 'main.ts'), join('.storybook', 'preview.ts')],
   lintStaged: ['.lintstagedrc']
 };
 const directories = {
@@ -145,6 +146,10 @@ const scripts = {
   jest: {
     test: 'jest',
     'view:coverage': 'opener ./coverage/index.html'
+  },
+  storybook: {
+    storybook: 'storybook dev -p 6006',
+    'build:storybook': 'storybook build'
   }
 };
 
@@ -335,6 +340,7 @@ export default class extends Generator implements CustomGenerator {
     this.fileSystem.copyTemplate('_package.json', 'package.json');
     this.fileSystem.copyTemplate('_eslint.config.mjs', 'eslint.config.mjs');
     this.fileSystem.copyTemplate('webpack.config.nts', 'webpack.config.ts');
+    this.fileSystem.copyTemplate(src('index.nscss'), src('index.scss'));
 
     // this is a workaround for npm not packaging up .gitignore files
     this.fileSystem.copyTo('gitignore', '.gitignore');
@@ -349,6 +355,20 @@ export default class extends Generator implements CustomGenerator {
       this.fs.extendJSON(this.destinationPath('package.json'), {
         scripts: {
           ...scripts.jest
+        }
+      });
+    }
+
+    if (flags.addStorybook) {
+      files.storybook.forEach(this.fileSystem.copyTemplateInPlace);
+      this.fileSystem.copyTemplate(
+        join('_stories', 'SuspenseFallback.stories.tsx'),
+        src('components', 'SuspenseFallback.stories.tsx')
+      );
+      this.fs.append(this.destinationPath('.gitignore'), 'storybook-static/');
+      this.fs.extendJSON(this.destinationPath('package.json'), {
+        scripts: {
+          ...scripts.storybook
         }
       });
     }

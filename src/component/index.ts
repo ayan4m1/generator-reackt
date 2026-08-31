@@ -40,12 +40,19 @@ export default class extends Generator implements CustomGenerator {
         name: 'flags.addRedux',
         message: 'Connect this component to the Redux store?',
         default: false
+      },
+      {
+        type: 'confirm',
+        name: 'flags.addStorybook',
+        message: 'Add a Storybook story?',
+        default: false
       }
     ])) as unknown as ModuleAnswers;
   }
 
   async writing() {
     const {
+      flags,
       component: { name }
     } = this.answers;
     const fileName = src('components', `${name}.js`);
@@ -54,5 +61,12 @@ export default class extends Generator implements CustomGenerator {
     this.log(`Creating ${name} component`);
     this.fileSystem.copyTemplate('index.js', fileName);
     this.fileSystem.copyTemplate('index.test.js', testName);
+
+    if (flags.addStorybook) {
+      this.fileSystem.copyTemplate(
+        'index.stories.tsx',
+        src('components', `${name}.stories.tsx`)
+      );
+    }
   }
 }
