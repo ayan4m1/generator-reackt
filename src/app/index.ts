@@ -78,7 +78,13 @@ const packages: Record<string, string[]> = {
     'esdoc-standard-plugin',
     'opener'
   ],
-  jest: ['eslint-plugin-jest', 'jest', 'react-test-renderer', 'opener'],
+  jest: [
+    '@types/jest',
+    'eslint-plugin-jest',
+    'jest',
+    'react-test-renderer',
+    'opener'
+  ],
   dev: [
     '@eslint/js@9',
     '@types/react',
