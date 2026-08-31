@@ -3,7 +3,8 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "rootDir": ".",
-    "types": ["jest"]
+    "types": ["jest"],
+    "jsx": "react-jsx"
   },
   "include": ["src/", ".storybook/"]
 }
