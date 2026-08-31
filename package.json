@@ -34,7 +34,6 @@
   "license": "MIT",
   "dependencies": {
     "date-fns": "^3.6.0",
-    "got": "14.6.6",
     "gulp-if": "^3.0.0",
     "gulp-prettier": "^6.0.0",
     "jsonfile": "^6.2.1",

@@ -1,4 +1,3 @@
-import { got } from 'got';
 import { join } from 'path';
 import gulpIf from 'gulp-if';
 import { format } from 'date-fns';
@@ -309,13 +308,21 @@ export default class extends Generator implements CustomGenerator {
 
     if (license !== 'SEE LICENSE IN LICENSE') {
       this.log(`Downloading ${license} license from spdx/license-list-data...`);
-      const { body: rawLicense } = await got(
+      const response = await fetch(
         `https://raw.githubusercontent.com/spdx/license-list-data/master/text/${license}.txt`
       );
 
-      licenseText = rawLicense
-        .replace('<year>', format(new Date(), 'yyyy'))
-        .replace('<copyright holders>', `${name} <${email}>`);
+      if (response.status !== 200) {
+        this.log(
+          `License download failed with HTTP ${response.status} - ${response.statusText}`
+        );
+      } else {
+        const rawLicense = await response.text();
+
+        licenseText = rawLicense
+          .replace('<year>', format(new Date(), 'yyyy'))
+          .replace('<copyright holders>', `${name} <${email}>`);
+      }
     }
     this.fileSystem.createFile('LICENSE', licenseText);
 
