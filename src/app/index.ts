@@ -122,17 +122,21 @@ const files = {
     '.stylelintrc',
     '.editorconfig',
     'tsconfig.json',
-    '.browserslistrc',
-    src('utils', 'index.js')
+    '.browserslistrc'
   ],
-  templated: [src('index.js'), src('index.html'), src('index.scss')],
+  templated: [
+    src('index.tsx'),
+    src('index.html'),
+    src('index.scss'),
+    src('utils', 'index.ts')
+  ],
   esdoc: ['.esdoc.json'],
   jest: ['jest.config.js'],
   lintStaged: ['.lintstagedrc']
 };
 const directories = {
   redux: [src('reducers'), src('sagas'), src('selectors')],
-  core: [src('components'), src('utils')]
+  templated: [src('components'), src('pages'), src('types')]
 };
 const scripts = {
   esdoc: {
@@ -176,12 +180,9 @@ export default class extends Generator implements CustomGenerator {
     this.queueTransformStream(
       {},
       gulpIf(
-        /\.js$/,
+        /\.tsx?$/,
         prettier(readFileSync(this.fileSystem.resolve('.prettierrc')))
-      )
-    );
-    this.queueTransformStream(
-      {},
+      ),
       gulpIf(
         /\.scss$/,
         stylelint({
@@ -320,7 +321,7 @@ export default class extends Generator implements CustomGenerator {
     // copy files and directories
     files.core.forEach(this.fileSystem.copy);
     files.templated.forEach(this.fileSystem.copyTemplateInPlace);
-    directories.core.forEach(this.fileSystem.copyDirectory);
+    directories.templated.forEach(this.fileSystem.copyDirectory);
 
     // these are underscored to prevent them being picked up by ESLint
     this.fileSystem.copyTemplate('_package.json', 'package.json');

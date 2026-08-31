@@ -1,5 +1,7 @@
+import { Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { RouterProvider, createHashRouter } from 'react-router-dom';
+
 <% if (flags.addRedux) { %>
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
@@ -7,7 +9,9 @@ import { applyMiddleware, createStore, compose } from 'redux';
 <% } %>
 
 import './index.scss';
-import { App } from './components/App';
+import Layout from './components/Layout';
+import SuspenseFallback from './components/SuspenseFallback';
+import ErrorBoundary from './components/ErrorBoundary';
 <% if (flags.addRedux) { %>
 import rootSaga from './sagas';
 import rootReducer from './reducers';
@@ -23,20 +27,31 @@ sagaMiddleware.run(rootSaga);
 
 const rootElem = document.getElementById('root');
 
-if (!rootElem) {
-  return;
-}
+if (rootElem) {
+  const root = createRoot(rootElem);
+  const router = createHashRouter([
+    {
+      path: '/',
+      element: <Layout />,
+      errorElement: <ErrorBoundary />,
+      children: [
+        {
+          index: true,
+          lazy: () => import(`./pages/index`)
+        }
+      ]
+    }
+  ]);
 
-const root = createRoot(rootElem);
-
-root.render(
-  <Router>
+  root.render(
 <% if (flags.addRedux) { %>
-    <Provider store={store}>
-      <App />
-    </Provider>
-<% } else { %>
-    <App />
+      <Provider store={store}>
 <% } %>
-  </Router>
-)
+        <Suspense fallback={<SuspenseFallback />}>
+          <RouterProvider router={router} />
+        </Suspense>
+<% if (flags.addRedux) { %>
+      </Provider>
+<% } %>
+  )
+}

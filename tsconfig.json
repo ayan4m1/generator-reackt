@@ -4,5 +4,6 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "rootDir": "."
-  }
+  },
+  "exclude": ["templates/**/*"]
 }
