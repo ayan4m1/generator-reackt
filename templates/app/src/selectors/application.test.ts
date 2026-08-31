@@ -1,5 +1,5 @@
 import { AppState } from '../types';
-import { getApplication } from './application';
+import { getApplication, getApplicationInited } from './application';
 
 describe('application selectors', () => {
   const state: AppState = {
@@ -13,6 +13,6 @@ describe('application selectors', () => {
   });
 
   it('can getApplicationInited', () => {
-    expect();
+    expect(getApplicationInited(state).toBe(state.application.inited));
   });
 });
