@@ -1,5 +1,5 @@
 <% if (flags.addJest) { %>
-import { createElement } from 'react';
+import { createElement, ComponentProps } from 'react';
 <% } %>
 
 <% if (flags.addRedux) { %>
@@ -28,9 +28,9 @@ export function buildActions(reducer, actions) {
  * Creates a mock component which will expose its props for snapshot testing purposes.
  *
  * @param {string} name The component/element name (e.g. "MyComponent")
- * @param {object} props An object containing props to setup
+ * @param {ComponentProps} props An object containing props to set
  * @return {object} Mock component with specified name and props
  */
-export const mockComponent = (name, props = {}) => () =>
+export const mockComponent = (name: string, props: ComponentProps = {}) => () =>
   createElement(name, props, props.children);
 <% } %>
