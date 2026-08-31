@@ -1,3 +1,3 @@
-export default function IndexPage() {
+export const Component = () => {
   return <h1>Hello World</h1>;
-}
+};
