@@ -13,7 +13,6 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import { type Configuration, type WebpackPluginInstance } from 'webpack';
 import { CleanWebpackPlugin as CleanPlugin } from 'clean-webpack-plugin';
-import CopyPlugin from 'copy-webpack-plugin';
 
 import 'webpack-dev-server';
 
@@ -25,14 +24,11 @@ const plugins: WebpackPluginInstance[] = [
     template: './src/index.html'
   }),
   new MiniCssExtractPlugin(),
-  <% if (flags.deployDomain) { %>
+<% if (flags.deployDomain) { %>
   new CnameWebpackPlugin({
     domain: '<%= deploy.domain %>'
-  }),
-  <% } %>
-  new CopyPlugin({
-    patterns: [{ from: './src/assets' }]
   })
+<% } %>
 ];
 
 if (dev) {
@@ -64,13 +60,6 @@ const config: Configuration = {
   },
   module: {
     rules: [
-      {
-        test: /\.gltf$/,
-        type: 'asset/resource',
-        generator: {
-          filename: '[name][ext]'
-        }
-      },
       {
         test: /\.tsx?$/,
         use: ['ts-loader'],
