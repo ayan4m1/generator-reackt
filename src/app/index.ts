@@ -255,7 +255,8 @@ export default class extends Generator implements CustomGenerator {
       {
         type: 'input',
         name: 'deploy.domain',
-        message: 'Hostname to deploy to'
+        message: 'Hostname to use',
+        when: (answers: ModuleAnswers) => answers.flags.deployDomain
       },
       {
         type: 'confirm',
