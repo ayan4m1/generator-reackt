@@ -6,6 +6,8 @@ import { CustomGenerator, FS } from '../types';
 
 const __dirname = fileURLToPath(import.meta.url);
 
+export const src = (...paths: string[]) => join('src', ...paths);
+
 export default (gen: CustomGenerator): FS => ({
   copy: (file: string) =>
     gen.fs.copy(gen.templatePath(file), gen.destinationPath(file)),

@@ -4,10 +4,8 @@ import Generator, {
   type BaseOptions
 } from 'yeoman-generator';
 
-import fileSystem from '../util/fs.js';
+import fileSystem, { src } from '../util/fs.js';
 import { CustomGenerator, FS, ModuleAnswers } from '../types/index.js';
-
-const src = (...paths: string[]) => join('src', ...paths);
 
 export default class extends Generator implements CustomGenerator {
   answers: ModuleAnswers;
@@ -130,10 +128,10 @@ export default class extends Generator implements CustomGenerator {
       }
     };
 
-    buildPaths('.js');
+    buildPaths('.ts');
 
     if (flags.addJest) {
-      buildPaths('.test.js');
+      buildPaths('.test.ts');
     }
   }
 }

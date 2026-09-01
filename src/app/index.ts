@@ -10,13 +10,11 @@ import Generator, {
   type BaseOptions
 } from 'yeoman-generator';
 
-import fileSystem from '../util/fs';
+import fileSystem, { src } from '../util/fs';
 import { CustomGenerator, FS, ModuleAnswers } from '../types';
 
 spdxIdentifiers.push('SEE LICENSE IN LICENSE');
 spdxIdentifiers.sort();
-
-const src = (...paths: string[]) => join('src', ...paths);
 
 // addDependencies pins exact versions, so restore the caret ranges that
 // yarn add used to write
