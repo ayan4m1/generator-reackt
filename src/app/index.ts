@@ -257,7 +257,7 @@ export default class extends Generator implements CustomGenerator {
       },
       {
         type: 'confirm',
-        name: 'flags.deployDomain',
+        name: 'flags.addCnamePlugin',
         message: 'Deploying to GitHub Pages with CNAME?',
         default: false
       },
@@ -265,7 +265,7 @@ export default class extends Generator implements CustomGenerator {
         type: 'input',
         name: 'deploy.domain',
         message: 'Hostname to use',
-        when: (answers: ModuleAnswers) => answers.flags.deployDomain
+        when: (answers: ModuleAnswers) => answers.flags.addCnamePlugin
       },
       {
         type: 'confirm',
@@ -299,7 +299,7 @@ export default class extends Generator implements CustomGenerator {
       },
       {
         type: 'confirm',
-        name: 'flags.addESDoc',
+        name: 'flags.addEsDoc',
         message: 'Add ESDoc?',
         default: false
       }
@@ -378,7 +378,7 @@ export default class extends Generator implements CustomGenerator {
       });
     }
 
-    if (flags.addESDoc) {
+    if (flags.addEsDoc) {
       files.esdoc.forEach(this.fileSystem.copy);
       this.fs.append(this.destinationPath('.gitignore'), 'docs/');
       this.fs.extendJSON(this.destinationPath('package.json'), {
@@ -425,7 +425,7 @@ export default class extends Generator implements CustomGenerator {
       dev.push(...packages.storybook);
     }
 
-    if (flags.addESDoc) {
+    if (flags.addEsDoc) {
       main.push(...packages.esdoc);
     }
 

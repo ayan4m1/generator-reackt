@@ -35,14 +35,14 @@ export type ModuleAnswers = {
 };
 
 export type Flags = {
-  addESDoc?: boolean;
+  addCnamePlugin?: boolean;
+  addEsDoc?: boolean;
   addFontAwesome?: boolean;
   addJest?: boolean;
   addLintStaged?: boolean;
   addRedux?: boolean;
   addSaga?: boolean;
   addStorybook?: boolean;
-  deployDomain?: boolean;
   createSaga?: boolean;
   createSelector?: boolean;
   createReducer?: boolean;

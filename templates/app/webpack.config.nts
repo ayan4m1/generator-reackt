@@ -4,7 +4,7 @@ import autoprefixer from 'autoprefixer';
 import HtmlPlugin from 'html-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
-<% if (flags.deployDomain) { %>
+<% if (flags.addCnamePlugin) { %>
 import CnameWebpackPlugin from 'cname-webpack-plugin';
 <% } %>
 import StylelintPlugin from 'stylelint-webpack-plugin';
@@ -24,7 +24,7 @@ const plugins: WebpackPluginInstance[] = [
     template: './src/index.html'
   }),
   new MiniCssExtractPlugin(),
-<% if (flags.deployDomain) { %>
+<% if (flags.addCnamePlugin) { %>
   new CnameWebpackPlugin({
     domain: '<%= deploy.domain %>'
   })
