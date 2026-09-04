@@ -27,6 +27,23 @@ export default function Layout() {
     </Fragment>
   );
 }
+<% } else if (styleFramework === 'bulma') { %>
+import { Link, Outlet } from 'react-router-dom';
+
+export default function Layout() {
+  return (
+    <div className="container">
+      <nav aria-label="main navigation" className="navbar" role="navigation">
+        <div className="navbar-brand">
+          <Link className="navbar-item" to="/">
+            app
+          </Link>
+        </div>
+      </nav>
+      <Outlet />
+    </div>
+  );
+}
 <% } else { %>
 import { Outlet } from 'react-router-dom';
 
