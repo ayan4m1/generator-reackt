@@ -353,7 +353,10 @@ export default class extends Generator implements CustomGenerator {
     this.fileSystem.copyTemplate('_package.json', 'package.json');
     this.fileSystem.copyTemplate('_eslint.config.mjs', 'eslint.config.mjs');
     this.fileSystem.copyTemplate('webpack.config.nts', 'webpack.config.ts');
-    this.fileSystem.copyTemplate(src('index.nscss'), src('index.scss'));
+
+    if (this.answers.styleFramework !== 'materialUi') {
+      this.fileSystem.copyTemplate(src('index.nscss'), src('index.scss'));
+    }
 
     // this is a workaround for npm not packaging up .gitignore files
     this.fileSystem.copyTo('gitignore', '.gitignore');
