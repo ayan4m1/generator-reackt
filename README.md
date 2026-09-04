@@ -4,7 +4,7 @@ This project scaffolds a modern web application. It is fairly opinionated, but i
 
 Here's the mile-long list of technologies the generated project can leverage:
 
-- [Babel](https://babeljs.io/) - Compile modern ECMAScript to Node-compatible JS
+- [TypeScript](https://www.typescriptlang.org/) - The language of the modern web
 - [Webpack](https://webpack.js.org/) - Bundle code, styles, markup, and more into a web application
 - [husky](https://www.npmjs.com/package/husky) - Execute lint-staged before committing to Git
 - [lint-staged](https://www.npmjs.com/package/lint-staged) - Execute linters for specific file types
