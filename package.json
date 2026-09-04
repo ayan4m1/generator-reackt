@@ -11,7 +11,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "ssh://git@git.codecube.xyz:7999/web/generator-reackt.git"
+    "url": "ssh://git@github.com:ayan4m1/generator-reackt.git"
   },
   "keywords": [
     "yeoman-generator",
