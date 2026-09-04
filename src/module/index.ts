@@ -1,29 +1,12 @@
 import { join } from 'path';
-import Generator, {
-  type BaseFeatures,
-  type BaseOptions
-} from 'yeoman-generator';
 
-import fileSystem, { src } from '../util/fs.js';
-import { CustomGenerator, FS, ModuleAnswers } from '../types/index.js';
+import { src } from '../util/fs.js';
+import BaseGenerator from '../util/generator.js';
+import { ModuleAnswers } from '../types/index.js';
 
-export default class extends Generator implements CustomGenerator {
-  answers: ModuleAnswers;
-  fileSystem: FS;
-
-  constructor(args: string[], options: BaseOptions, features?: BaseFeatures) {
-    super(args, options, features);
-
-    this.answers = {
-      component: {},
-      deploy: {},
-      module: {},
-      package: {},
-      author: {},
-      flags: {}
-    };
-    this.fileSystem = fileSystem(this);
-    this.sourceRoot(this.fileSystem.resolve('templates', 'module'));
+export default class extends BaseGenerator {
+  protected templateDirectory() {
+    return 'module';
   }
 
   async prompting() {

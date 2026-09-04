@@ -5,13 +5,10 @@ import prettier from 'gulp-prettier';
 import { readFileSync } from 'jsonfile';
 import stylelint from 'yeoman-stylelint';
 import spdxIdentifiers from 'spdx-license-ids' with { type: 'json' };
-import Generator, {
-  type BaseFeatures,
-  type BaseOptions
-} from 'yeoman-generator';
 
-import fileSystem, { src } from '../util/fs';
-import { CustomGenerator, FS, ModuleAnswers, StyleFramework } from '../types';
+import { src } from '../util/fs';
+import BaseGenerator from '../util/generator';
+import { ModuleAnswers, StyleFramework } from '../types';
 
 spdxIdentifiers.push('SEE LICENSE IN LICENSE');
 spdxIdentifiers.sort();
@@ -166,23 +163,9 @@ const scripts = {
   }
 };
 
-export default class extends Generator implements CustomGenerator {
-  answers: ModuleAnswers;
-  fileSystem: FS;
-
-  constructor(args: string[], options: BaseOptions, features?: BaseFeatures) {
-    super(args, options, features);
-
-    this.answers = {
-      component: {},
-      deploy: {},
-      module: {},
-      package: {},
-      author: {},
-      flags: {}
-    };
-    this.fileSystem = fileSystem(this);
-    this.sourceRoot(this.fileSystem.resolve('templates', 'app'));
+export default class extends BaseGenerator {
+  protected templateDirectory() {
+    return 'app';
   }
 
   initializing() {
