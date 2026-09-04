@@ -5,9 +5,13 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "rootDir": ".",
+  <% if (flags.addJest) { %>
     "types": ["jest"],
+  <% } %>
+  <% if (styleFramework === 'uikit') { %>
     // uikit-react ships a broken index.d.ts that would otherwise fail the build
     "skipLibCheck": true,
+  <% } %>
     "jsx": "react-jsx"
   },
   "include": ["src/", ".storybook/"]

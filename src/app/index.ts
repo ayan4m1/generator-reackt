@@ -134,10 +134,14 @@ const files = {
     '.prettierrc',
     '.stylelintrc',
     '.editorconfig',
-    'tsconfig.json',
     '.browserslistrc'
   ],
-  templated: [src('index.tsx'), src('index.html'), src('utils', 'index.ts')],
+  templated: [
+    'tsconfig.json',
+    src('index.tsx'),
+    src('index.html'),
+    src('utils', 'index.ts')
+  ],
   esdoc: ['.esdoc.json'],
   jest: ['jest.config.js'],
   storybook: [join('.storybook', 'main.ts'), join('.storybook', 'preview.ts')],
