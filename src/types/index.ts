@@ -55,5 +55,5 @@ export type CustomGenerator = Generator & {
 
 export type StyleFramework = {
   name: string;
-  value: string;
+  value: string | null;
 };
