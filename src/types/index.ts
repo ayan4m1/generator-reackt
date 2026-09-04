@@ -52,3 +52,8 @@ export type CustomGenerator = Generator & {
   answers: ModuleAnswers;
   fileSystem: FS;
 };
+
+export type StyleFramework = {
+  name: string;
+  value: string;
+};

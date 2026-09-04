@@ -11,7 +11,7 @@ import Generator, {
 } from 'yeoman-generator';
 
 import fileSystem, { src } from '../util/fs';
-import { CustomGenerator, FS, ModuleAnswers } from '../types';
+import { CustomGenerator, FS, ModuleAnswers, StyleFramework } from '../types';
 
 spdxIdentifiers.push('SEE LICENSE IN LICENSE');
 spdxIdentifiers.sort();
@@ -26,7 +26,7 @@ const caretRange = (deps: Record<string, string>) =>
     ])
   );
 
-const styleFrameworks = [
+const styleFrameworks: StyleFramework[] = [
   { value: null, name: 'None' },
   { value: 'bootstrap', name: 'Bootstrap' },
   { value: 'bulma', name: 'Bulma' },
