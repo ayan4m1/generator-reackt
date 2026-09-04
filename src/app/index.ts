@@ -43,10 +43,10 @@ const packages: Record<string, string[]> = {
   ],
   bootstrap: ['bootstrap', 'react-bootstrap', '@popperjs/core'],
   uikit: ['uikit', 'uikit-react'],
-  foundation: ['foundation-sites'],
-  materialize: ['materialize-css'],
+  foundation: ['foundation-sites', 'react-foundation'],
+  materialize: ['materialize-css', 'react-materialize'],
   bulma: ['bulma'],
-  materialUi: ['@material-ui/core'],
+  materialUi: ['@mui/material', '@emotion/react', '@emotion/styled'],
   lintStaged: ['husky', 'lint-staged'],
   redux: ['redux', 'react-redux', 'redux-saga'],
   reduxJest: ['redux-mock-store'],
@@ -123,6 +123,10 @@ const packages: Record<string, string[]> = {
     'webpack',
     'webpack-dev-server'
   ]
+};
+// react-foundation ships no typings of its own
+const styleFrameworkDevPackages: Record<string, string[]> = {
+  foundation: ['@types/react-foundation']
 };
 const files = {
   core: [
@@ -399,6 +403,10 @@ export default class extends Generator implements CustomGenerator {
     // the "None" choice carries a null value, so a truthy check is what skips it
     if (styleFramework) {
       main.push(...packages[styleFramework]);
+
+      if (styleFrameworkDevPackages[styleFramework]) {
+        dev.push(...styleFrameworkDevPackages[styleFramework]);
+      }
     }
 
     if (flags.addLintStaged) {

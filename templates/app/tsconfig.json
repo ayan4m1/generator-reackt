@@ -1,9 +1,13 @@
 {
   "compilerOptions": {
+    "target": "esnext",
+    "lib": ["esnext", "dom", "dom.iterable"],
     "module": "esnext",
     "moduleResolution": "bundler",
     "rootDir": ".",
     "types": ["jest"],
+    // uikit-react ships a broken index.d.ts that would otherwise fail the build
+    "skipLibCheck": true,
     "jsx": "react-jsx"
   },
   "include": ["src/", ".storybook/"]

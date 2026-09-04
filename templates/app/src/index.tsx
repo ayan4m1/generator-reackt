@@ -9,6 +9,9 @@ import { applyMiddleware, createStore, compose } from 'redux';
 <% } %>
 
 import './index.scss';
+<% if (styleFramework === 'materialize') { %>
+import 'materialize-css';
+<% } %>
 import Layout from './components/Layout';
 import SuspenseFallback from './components/SuspenseFallback';
 import ErrorBoundary from './components/ErrorBoundary';

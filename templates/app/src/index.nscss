@@ -9,6 +9,7 @@
 @import "uikit/src/scss/uikit-theme";
 <% } else if (styleFramework === 'foundation') { %>
 @import "foundation-sites/scss/foundation";
+@include foundation-everything;
 <% } else if (styleFramework === 'materialize') { %>
 @import "materialize-css/sass/materialize";
 <% } else if (styleFramework === 'bulma') { %>

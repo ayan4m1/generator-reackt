@@ -1,6 +1,14 @@
 import { Fragment } from 'react';
 <% if (styleFramework === 'bootstrap') { %>
 import { Container } from 'react-bootstrap';
+<% } else if (styleFramework === 'foundation') { %>
+import { GridContainer as Container } from 'react-foundation';
+<% } else if (styleFramework === 'materialize') { %>
+import { Container } from 'react-materialize';
+<% } else if (styleFramework === 'uikit') { %>
+import { Container } from 'uikit-react';
+<% } else if (styleFramework === 'materialUi') { %>
+import { Container } from '@mui/material';
 <% } %>
 import { isRouteErrorResponse, useRouteError } from 'react-router';
 
@@ -8,7 +16,9 @@ export default function ErrorBoundary() {
   const error = useRouteError();
 
   return (
-<% if (styleFramework === 'bootstrap') { %>
+<% if (styleFramework === 'bulma') { %>
+    <div className="container">
+<% } else if (styleFramework) { %>
     <Container>
 <% } else { %>
     <div>
@@ -26,7 +36,7 @@ export default function ErrorBoundary() {
       ) : (
         <h1>{error as string}</h1>
       )}
-<% if (styleFramework === 'bootstrap') { %>
+<% if (styleFramework && styleFramework !== 'bulma') { %>
     </Container>
 <% } else { %>
     </div>
