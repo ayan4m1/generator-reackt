@@ -34,7 +34,7 @@ const styleFrameworks: FrameworkChoice[] = [
   { value: StyleFrameworks.Bulma, name: 'Bulma' },
   { value: StyleFrameworks.Foundation, name: 'Foundation' },
   { value: StyleFrameworks.Materialize, name: 'Materialize' },
-  { value: StyleFrameworks.UIKit, name: 'UIKit' },
+  { value: StyleFrameworks.UIkit, name: 'UIkit' },
   { value: StyleFrameworks.MaterialUI, name: 'Material-UI' }
 ];
 const testFrameworks: FrameworkChoice[] = [
@@ -54,7 +54,7 @@ const packages: Record<string, string[]> = {
     '@popperjs/core'
   ],
   [StyleFrameworks.Bulma]: ['bulma'],
-  [StyleFrameworks.UIKit]: ['uikit', 'uikit-react'],
+  [StyleFrameworks.UIkit]: ['uikit', 'uikit-react'],
   [StyleFrameworks.Foundation]: ['foundation-sites', 'react-foundation'],
   [StyleFrameworks.Materialize]: ['materialize-css', 'react-materialize'],
   [StyleFrameworks.MaterialUI]: [

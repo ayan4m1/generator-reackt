@@ -60,7 +60,7 @@ export enum StyleFrameworks {
   Bulma = 'bulma',
   Foundation = 'foundation',
   Materialize = 'materialize',
-  UIKit = 'uikit',
+  UIkit = 'uikit',
   MaterialUI = 'materialUi'
 }
 
