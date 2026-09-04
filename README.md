@@ -18,3 +18,19 @@ Here's the mile-long list of technologies the generated project can leverage:
 - [Redux-Saga](https://redux-saga.js.org/) - Redux middleware for action/side-effect interaction
 - [Jest](https://jestjs.io/) - Unit, integration, and snapshot testing
 - [RTL](https://testing-library.com/docs/react-testing-library/intro/) - Opinionated unit testing for React
+
+## Installation
+
+> npm install -g generator-reackt
+
+OR
+
+> yarn add -g generator-reackt
+
+## Usage
+
+To create an application, run `yo reackt`.
+
+To create a new React component, run `yo reackt:component`.
+
+If you are using Redux, you can create a new module (slice of reducer and sagas) with `yo reackt:module`.
