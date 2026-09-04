@@ -8,7 +8,12 @@ import spdxIdentifiers from 'spdx-license-ids' with { type: 'json' };
 
 import { src } from '../util/fs';
 import BaseGenerator from '../util/generator';
-import { ModuleAnswers, StyleFramework } from '../types';
+import {
+  ModuleAnswers,
+  FrameworkChoice,
+  StyleFrameworks,
+  TestFrameworks
+} from '../types';
 
 spdxIdentifiers.push('SEE LICENSE IN LICENSE');
 spdxIdentifiers.sort();
@@ -23,14 +28,19 @@ const caretRange = (deps: Record<string, string>) =>
     ])
   );
 
-const styleFrameworks: StyleFramework[] = [
-  { value: null, name: 'None' },
-  { value: 'bootstrap', name: 'Bootstrap' },
-  { value: 'bulma', name: 'Bulma' },
-  { value: 'foundation', name: 'Foundation' },
-  { value: 'materialize', name: 'Materialize' },
-  { value: 'uikit', name: 'UIKit' },
-  { value: 'materialUi', name: 'Material-UI' }
+const styleFrameworks: FrameworkChoice[] = [
+  { value: StyleFrameworks.None, name: 'None' },
+  { value: StyleFrameworks.Bootstrap, name: 'Bootstrap' },
+  { value: StyleFrameworks.Bulma, name: 'Bulma' },
+  { value: StyleFrameworks.Foundation, name: 'Foundation' },
+  { value: StyleFrameworks.Materialize, name: 'Materialize' },
+  { value: StyleFrameworks.UIKit, name: 'UIKit' },
+  { value: StyleFrameworks.MaterialUI, name: 'Material-UI' }
+];
+const testFrameworks: FrameworkChoice[] = [
+  { value: TestFrameworks.None, name: 'None' },
+  { value: TestFrameworks.Jest, name: 'Jest' },
+  { value: TestFrameworks.ReactTestingLibrary, name: 'React Testing Library' }
 ];
 const packages: Record<string, string[]> = {
   fontAwesome: [
@@ -38,16 +48,41 @@ const packages: Record<string, string[]> = {
     '@fortawesome/free-solid-svg-icons',
     '@fortawesome/react-fontawesome'
   ],
-  bootstrap: ['bootstrap', 'react-bootstrap', '@popperjs/core'],
-  uikit: ['uikit', 'uikit-react'],
-  foundation: ['foundation-sites', 'react-foundation'],
-  materialize: ['materialize-css', 'react-materialize'],
-  bulma: ['bulma'],
-  materialUi: ['@mui/material', '@emotion/react', '@emotion/styled'],
+  [StyleFrameworks.Bootstrap]: [
+    'bootstrap',
+    'react-bootstrap',
+    '@popperjs/core'
+  ],
+  [StyleFrameworks.Bulma]: ['bulma'],
+  [StyleFrameworks.UIKit]: ['uikit', 'uikit-react'],
+  [StyleFrameworks.Foundation]: ['foundation-sites', 'react-foundation'],
+  [StyleFrameworks.Materialize]: ['materialize-css', 'react-materialize'],
+  [StyleFrameworks.MaterialUI]: [
+    '@mui/material',
+    '@emotion/react',
+    '@emotion/styled'
+  ],
   lintStaged: ['husky', 'lint-staged'],
   redux: ['redux', 'react-redux', 'redux-saga'],
   reduxJest: ['redux-mock-store'],
-  rtl: ['@testing-library/react', '@testing-library/dom'],
+  [TestFrameworks.Jest]: [
+    '@types/jest',
+    '@types/react-test-renderer',
+    'eslint-plugin-jest',
+    'identity-obj-proxy',
+    'jest',
+    'jest-environment-jsdom',
+    'react-test-renderer',
+    'ts-jest',
+    'opener'
+  ],
+  // RTL layers on top of Jest rather than replacing it
+  [TestFrameworks.ReactTestingLibrary]: [
+    '@testing-library/react',
+    '@testing-library/dom',
+    '@testing-library/jest-dom',
+    '@testing-library/user-event'
+  ],
   core: [
     'normalize-scss',
     'react',
@@ -58,11 +93,11 @@ const packages: Record<string, string[]> = {
   ],
   storybook: [
     'storybook@10',
-    '@storybook/react-vite@10',
-    '@storybook/addon-docs@10',
-    '@storybook/addon-a11y@10',
-    '@storybook/addon-links@10',
-    '@storybook/addon-themes@10',
+    '@storybook/react-vite',
+    '@storybook/addon-docs',
+    '@storybook/addon-a11y',
+    '@storybook/addon-links',
+    '@storybook/addon-themes',
     '@vitejs/plugin-react',
     'vite'
   ],
@@ -71,13 +106,6 @@ const packages: Record<string, string[]> = {
     'esdoc-ecmascript-proposal-plugin',
     'esdoc-jsx-plugin',
     'esdoc-standard-plugin',
-    'opener'
-  ],
-  jest: [
-    '@types/jest',
-    'eslint-plugin-jest',
-    'jest',
-    'react-test-renderer',
     'opener'
   ],
   dev: [
@@ -140,7 +168,8 @@ const files = {
     src('utils', 'index.ts')
   ],
   esdoc: ['.esdoc.json'],
-  jest: ['jest.config.js'],
+  jest: ['jest.config.mjs'],
+  rtl: ['jest.setup.ts'],
   storybook: [join('.storybook', 'main.ts'), join('.storybook', 'preview.ts')],
   lintStaged: ['.lintstagedrc']
 };
@@ -247,6 +276,12 @@ export default class extends BaseGenerator {
         choices: styleFrameworks
       },
       {
+        type: 'select',
+        name: 'testFramework',
+        message: 'What testing framework would you like to use?',
+        choices: testFrameworks
+      },
+      {
         type: 'confirm',
         name: 'flags.addCnamePlugin',
         message: 'Deploying to GitHub Pages with CNAME?',
@@ -278,12 +313,6 @@ export default class extends BaseGenerator {
       },
       {
         type: 'confirm',
-        name: 'flags.addJest',
-        message: 'Add Jest?',
-        default: false
-      },
-      {
-        type: 'confirm',
         name: 'flags.addStorybook',
         message: 'Add Storybook?',
         default: false
@@ -301,9 +330,13 @@ export default class extends BaseGenerator {
     const {
       flags,
       styleFramework,
+      testFramework,
       package: { license },
       author: { name, email }
     } = this.answers;
+
+    // the component and module subgenerators read this back out of .yo-rc.json
+    this.config.set('testFramework', testFramework);
 
     let licenseText = 'Place your license here.\n';
 
@@ -346,16 +379,30 @@ export default class extends BaseGenerator {
 
     if (flags.addRedux) {
       directories.redux.forEach(this.fileSystem.copyDirectory);
+
+      // the selector fixtures ship with a spec that is useless without a runner
+      if (!testFramework) {
+        this.fs.delete(
+          this.destinationPath(src('selectors', 'application.test.ts'))
+        );
+      }
     }
 
-    if (flags.addJest) {
-      files.jest.forEach(this.fileSystem.copy);
+    // RTL implies Jest, so anything other than "None" gets the whole Jest setup
+    if (testFramework) {
+      files[TestFrameworks.Jest].forEach(this.fileSystem.copyTemplateInPlace);
       this.fs.append(this.destinationPath('.gitignore'), 'coverage/');
       this.fs.extendJSON(this.destinationPath('package.json'), {
         scripts: {
-          ...scripts.jest
+          ...scripts[TestFrameworks.Jest]
         }
       });
+
+      if (testFramework === TestFrameworks.ReactTestingLibrary) {
+        files[TestFrameworks.ReactTestingLibrary].forEach(
+          this.fileSystem.copyTemplateInPlace
+        );
+      }
     }
 
     if (flags.addStorybook) {
@@ -399,6 +446,14 @@ export default class extends BaseGenerator {
       }
     }
 
+    if (testFramework) {
+      dev.push(...packages[TestFrameworks.Jest]);
+
+      if (testFramework === TestFrameworks.ReactTestingLibrary) {
+        dev.push(...packages[TestFrameworks.ReactTestingLibrary]);
+      }
+    }
+
     if (flags.addLintStaged) {
       dev.push(...packages.lintStaged);
     }
@@ -411,11 +466,7 @@ export default class extends BaseGenerator {
       main.push(...packages.redux);
     }
 
-    if (flags.addJest) {
-      dev.push(...packages.jest);
-    }
-
-    if (flags.addRedux && flags.addJest) {
+    if (flags.addRedux && testFramework) {
       dev.push(...packages.reduxJest);
     }
 

@@ -13,6 +13,6 @@ describe('application selectors', () => {
   });
 
   it('can getApplicationInited', () => {
-    expect(getApplicationInited(state).toBe(state.application.inited));
+    expect(getApplicationInited(state)).toBe(state.application.inited);
   });
 });

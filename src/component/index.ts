@@ -1,14 +1,22 @@
 import { src } from '../util/fs.js';
 import BaseGenerator from '../util/generator.js';
-import { ModuleAnswers } from '../types/index.js';
+import { ModuleAnswers, TestFrameworks } from '../types/index.js';
 
 export default class extends BaseGenerator {
   protected templateDirectory() {
     return 'component';
   }
 
+  #testFramework() {
+    return this.config.get('testFramework') as string | undefined;
+  }
+
   async prompting() {
-    this.answers = (await this.prompt([
+    // an unset value means the project predates this key, so still offer tests;
+    // an explicit TestFrameworks.None means the app opted out of testing
+    const testFramework = this.#testFramework();
+
+    this.answers = await this.prompt<ModuleAnswers>([
       {
         type: 'input',
         name: 'component.name',
@@ -25,8 +33,15 @@ export default class extends BaseGenerator {
         name: 'flags.addStorybook',
         message: 'Add a Storybook story?',
         default: false
+      },
+      {
+        type: 'confirm',
+        name: 'flags.addTest',
+        message: 'Add a test case?',
+        default: true,
+        when: () => testFramework !== TestFrameworks.None
       }
-    ])) as unknown as ModuleAnswers;
+    ]);
   }
 
   async writing() {
@@ -39,7 +54,15 @@ export default class extends BaseGenerator {
 
     this.log(`Creating ${name} component`);
     this.fileSystem.copyTemplate('index.tsx', fileName);
-    this.fileSystem.copyTemplate('index.test.tsx', testName);
+
+    if (flags.addTest) {
+      this.fileSystem.copyTemplate(
+        this.#testFramework() === TestFrameworks.ReactTestingLibrary
+          ? 'index.rtl.test.tsx'
+          : 'index.jest.test.tsx',
+        testName
+      );
+    }
 
     if (flags.addStorybook) {
       this.fileSystem.copyTemplate(

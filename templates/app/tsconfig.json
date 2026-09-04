@@ -5,7 +5,9 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "rootDir": ".",
-<% if (flags.addJest) { %>
+<% if (testFramework === 'rtl') { %>
+    "types": ["jest", "@testing-library/jest-dom"],
+<% } else if (testFramework) { %>
     "types": ["jest"],
 <% } %>
 <% if (styleFramework === 'uikit') { %>
@@ -14,5 +16,9 @@
 <% } %>
     "jsx": "react-jsx"
   },
+<% if (testFramework === 'rtl') { %>
+  "include": ["src/", ".storybook/", "jest.setup.ts"]
+<% } else { %>
   "include": ["src/", ".storybook/"]
+<% } %>
 }

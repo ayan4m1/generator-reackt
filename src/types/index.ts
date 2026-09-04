@@ -15,6 +15,7 @@ export interface FS {
 export type ModuleAnswers = {
   directoryMode?: string;
   styleFramework?: string;
+  testFramework?: string;
   component: {
     name?: string;
   };
@@ -38,11 +39,11 @@ export type Flags = {
   addCnamePlugin?: boolean;
   addEsDoc?: boolean;
   addFontAwesome?: boolean;
-  addJest?: boolean;
   addLintStaged?: boolean;
   addRedux?: boolean;
   addSaga?: boolean;
   addStorybook?: boolean;
+  addTest?: boolean;
   createSaga?: boolean;
   createSelector?: boolean;
   createReducer?: boolean;
@@ -53,7 +54,23 @@ export type CustomGenerator = Generator & {
   fileSystem: FS;
 };
 
-export type StyleFramework = {
+export enum StyleFrameworks {
+  None = '',
+  Bootstrap = 'bootstrap',
+  Bulma = 'bulma',
+  Foundation = 'foundation',
+  Materialize = 'materialize',
+  UIKit = 'uikit',
+  MaterialUI = 'materialUi'
+}
+
+export enum TestFrameworks {
+  None = '',
+  Jest = 'jest',
+  ReactTestingLibrary = 'rtl'
+}
+
+export type FrameworkChoice = {
   name: string;
-  value: string | null;
+  value: string;
 };

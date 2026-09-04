@@ -36,9 +36,9 @@ export default defineConfig(
       globals: globals.node
     }
   },
-  <% if (flags.addJest) { %>
+<% if (testFramework) { %>
   {
-    files: ['./src/**/*.test.js'],
+    files: ['./src/**/*.test.{ts,tsx}'],
     languageOptions: {
       globals: {
         ...globals.node,
@@ -46,6 +46,6 @@ export default defineConfig(
       }
     }
   },
-  <% } %>
+<% } %>
   prettierPlugin
 );
