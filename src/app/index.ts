@@ -197,7 +197,7 @@ export default class extends Generator implements CustomGenerator {
     this.queueTransformStream(
       {},
       gulpIf(
-        /\.tsx?$/,
+        /\.(json|tsx?)$/,
         prettier(readFileSync(this.fileSystem.resolve('.prettierrc')))
       ),
       gulpIf(
