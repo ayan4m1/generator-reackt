@@ -50,8 +50,18 @@ OR
 
 To create an application, run `yo reackt`.
 
-To create a new React component, run `yo reackt:component`.
+To create a new React component, run `yo reackt:component`. You will be asked for a React component name, and whether or not to include a test case or Storybook story if applicable.
 
 To create a new page, run `yo reackt:page`. You will be asked for a page name and a URL, and the page is registered in `src/routes.tsx` so that it is routable and shows up in the navigation bar.
 
-If you are using Redux, you can create a new module (slice of reducer and sagas) with `yo reackt:module`.
+If you are using Redux, you can create a new module (slice of reducer and sagas) with `yo reackt:module`. You will be asked for a module name, and whether or not to include a test case and/or a Storybook story if applicable. You will also be asked if you want to structure your module in `dir` format or `file` format. An example:
+
+### file format
+
+The default. The reducer will be written to `./src/reducers/example.tsx`.
+
+### dir format
+
+The reducer will be written to `./src/reducers/example/index.tsx`.
+
+Useful when you want to break the reducers out further into specific files.
