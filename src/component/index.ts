@@ -1,6 +1,6 @@
-import { src } from '../util/fs.js';
-import BaseGenerator from '../util/generator.js';
-import { ModuleAnswers, TestFrameworks } from '../types/index.js';
+import { src } from '../util/fs';
+import BaseGenerator from '../util/generator';
+import { ModuleAnswers, TestFrameworks } from '../types';
 
 export default class extends BaseGenerator {
   protected templateDirectory() {

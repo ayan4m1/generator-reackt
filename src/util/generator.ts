@@ -3,8 +3,8 @@ import Generator, {
   type BaseOptions
 } from 'yeoman-generator';
 
-import fileSystem from './fs.js';
-import { CustomGenerator, FS, ModuleAnswers } from '../types/index.js';
+import fileSystem from './fs';
+import { CustomGenerator, FS, ModuleAnswers } from '../types';
 
 export default abstract class BaseGenerator
   extends Generator
