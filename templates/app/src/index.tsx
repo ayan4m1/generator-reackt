@@ -15,6 +15,7 @@ import 'materialize-css';
 import Layout from './components/Layout';
 import SuspenseFallback from './components/SuspenseFallback';
 import ErrorBoundary from './components/ErrorBoundary';
+import { routes } from './routes';
 <% if (flags.addRedux) { %>
 import rootSaga from './sagas';
 import rootReducer from './reducers';
@@ -37,12 +38,7 @@ if (rootElem) {
       path: '/',
       element: <Layout />,
       errorElement: <ErrorBoundary />,
-      children: [
-        {
-          index: true,
-          lazy: () => import(`./pages/index`)
-        }
-      ]
+      children: routes
     }
   ]);
 

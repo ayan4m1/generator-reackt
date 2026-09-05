@@ -25,6 +25,7 @@ export default abstract class BaseGenerator
       deploy: {},
       module: {},
       package: {},
+      page: {},
       author: {},
       flags: {}
     };

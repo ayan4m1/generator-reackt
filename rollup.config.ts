@@ -6,7 +6,8 @@ export default {
   input: [
     './src/app/index.ts',
     './src/component/index.ts',
-    './src/module/index.ts'
+    './src/module/index.ts',
+    './src/page/index.ts'
   ],
   output: {
     dir: './generators',

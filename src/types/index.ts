@@ -28,6 +28,10 @@ export type ModuleAnswers = {
   package: {
     license?: string;
   };
+  page: {
+    name?: string;
+    url?: string;
+  };
   author: {
     name?: string;
     email?: string;

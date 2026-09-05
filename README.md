@@ -52,4 +52,6 @@ To create an application, run `yo reackt`.
 
 To create a new React component, run `yo reackt:component`.
 
+To create a new page, run `yo reackt:page`. You will be asked for a page name and a URL, and the page is registered in `src/routes.tsx` so that it is routable and shows up in the navigation bar.
+
 If you are using Redux, you can create a new module (slice of reducer and sagas) with `yo reackt:module`.

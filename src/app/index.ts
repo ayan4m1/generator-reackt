@@ -165,6 +165,7 @@ const files = {
     'tsconfig.json',
     src('index.tsx'),
     src('index.html'),
+    src('routes.tsx'),
     src('utils', 'index.ts')
   ],
   esdoc: ['.esdoc.json'],

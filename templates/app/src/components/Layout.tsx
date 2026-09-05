@@ -3,6 +3,11 @@ import { Fragment } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 
+import { routes } from '../routes';
+
+// only titled routes get a nav entry - the index route is reachable via the brand
+const navRoutes = routes.filter((route) => route.path && route.handle?.title);
+
 export default function Layout() {
   return (
     <Fragment>
@@ -15,7 +20,13 @@ export default function Layout() {
           </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
-            <Nav></Nav>
+            <Nav>
+              {navRoutes.map((route) => (
+                <Nav.Link as={Link} key={route.path} to={`/${route.path}`}>
+                  {route.handle?.title}
+                </Nav.Link>
+              ))}
+            </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
@@ -28,6 +39,11 @@ export default function Layout() {
 <% } else if (styleFramework === 'bulma') { %>
 import { Link, Outlet } from 'react-router-dom';
 
+import { routes } from '../routes';
+
+// only titled routes get a nav entry - the index route is reachable via the brand
+const navRoutes = routes.filter((route) => route.path && route.handle?.title);
+
 export default function Layout() {
   return (
     <div className="container">
@@ -36,6 +52,15 @@ export default function Layout() {
           <Link className="navbar-item" to="/">
             <%= package.name %>
           </Link>
+        </div>
+        <div className="navbar-menu">
+          <div className="navbar-start">
+            {navRoutes.map((route) => (
+              <Link className="navbar-item" key={route.path} to={`/${route.path}`}>
+                {route.handle?.title}
+              </Link>
+            ))}
+          </div>
         </div>
       </nav>
       <Outlet />
@@ -52,6 +77,11 @@ import {
   TopBarLeft
 } from 'react-foundation';
 
+import { routes } from '../routes';
+
+// only titled routes get a nav entry - the index route is reachable via the brand
+const navRoutes = routes.filter((route) => route.path && route.handle?.title);
+
 export default function Layout() {
   return (
     <GridContainer>
@@ -61,6 +91,11 @@ export default function Layout() {
             <MenuItem>
               <Link to="/"><%= package.name %></Link>
             </MenuItem>
+            {navRoutes.map((route) => (
+              <MenuItem key={route.path}>
+                <Link to={`/${route.path}`}>{route.handle?.title}</Link>
+              </MenuItem>
+            ))}
           </Menu>
         </TopBarLeft>
       </TopBar>
@@ -70,7 +105,12 @@ export default function Layout() {
 }
 <% } else if (styleFramework === 'materialize') { %>
 import { Link, Outlet } from 'react-router-dom';
-import { Container, Icon, Navbar } from 'react-materialize';
+import { Container, Icon, Navbar, NavItem } from 'react-materialize';
+
+import { routes } from '../routes';
+
+// only titled routes get a nav entry - the index route is reachable via the brand
+const navRoutes = routes.filter((route) => route.path && route.handle?.title);
 
 export default function Layout() {
   return (
@@ -78,7 +118,13 @@ export default function Layout() {
       <Navbar
         brand={<Link to="/"><%= package.name %></Link>}
         menuIcon={<Icon>menu</Icon>}
-      />
+      >
+        {navRoutes.map((route) => (
+          <NavItem key={route.path}>
+            <Link to={`/${route.path}`}>{route.handle?.title}</Link>
+          </NavItem>
+        ))}
+      </Navbar>
       <Outlet />
     </Container>
   );
@@ -86,6 +132,11 @@ export default function Layout() {
 <% } else if (styleFramework === 'uikit') { %>
 import { Link, Outlet } from 'react-router-dom';
 import { Container, ListItem, Navbar, NavbarContainer } from 'uikit-react';
+
+import { routes } from '../routes';
+
+// only titled routes get a nav entry - the index route is reachable via the brand
+const navRoutes = routes.filter((route) => route.path && route.handle?.title);
 
 export default function Layout() {
   return (
@@ -95,6 +146,11 @@ export default function Layout() {
           <ListItem>
             <Link to="/"><%= package.name %></Link>
           </ListItem>
+          {navRoutes.map((route) => (
+            <ListItem key={route.path}>
+              <Link to={`/${route.path}`}>{route.handle?.title}</Link>
+            </ListItem>
+          ))}
         </Navbar>
       </NavbarContainer>
       <Outlet />
@@ -112,6 +168,11 @@ import {
   Typography
 } from '@mui/material';
 
+import { routes } from '../routes';
+
+// only titled routes get a nav entry - the index route is reachable via the brand
+const navRoutes = routes.filter((route) => route.path && route.handle?.title);
+
 export default function Layout() {
   return (
     <Fragment>
@@ -121,6 +182,16 @@ export default function Layout() {
           <Typography component={Link} to="/" variant="h6">
             <%= package.name %>
           </Typography>
+          {navRoutes.map((route) => (
+            <Typography
+              component={Link}
+              key={route.path}
+              to={`/${route.path}`}
+              variant="body1"
+            >
+              {route.handle?.title}
+            </Typography>
+          ))}
         </Toolbar>
       </AppBar>
       <Container>
