@@ -26,7 +26,7 @@ export default class extends BaseGenerator {
     const addRedux = this.#addRedus();
     const addStorybook = this.#addStorybook();
 
-    this.answers = await this.prompt<ModuleAnswers>([
+    const answers = await this.prompt<ModuleAnswers>([
       {
         type: 'input',
         name: 'component.name',
@@ -54,6 +54,7 @@ export default class extends BaseGenerator {
         when: () => testFramework !== TestFrameworks.None
       }
     ]);
+    this.answers = { ...this.answers, ...answers };
   }
 
   async writing() {

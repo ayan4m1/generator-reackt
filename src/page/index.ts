@@ -65,7 +65,10 @@ export default class extends BaseGenerator {
     const addRedux = this.#addRedux();
     const addStorybook = this.#addStorybook();
 
-    this.answers = await this.prompt<ModuleAnswers>([
+    // prompt() only returns the questions it actually asked, so merge - a run
+    // where every flag prompt is skipped would otherwise leave the templates
+    // without a flags object at all
+    const answers = await this.prompt<ModuleAnswers>([
       {
         type: 'input',
         name: 'page.name',
@@ -98,6 +101,8 @@ export default class extends BaseGenerator {
         when: () => testFramework !== TestFrameworks.None
       }
     ]);
+
+    this.answers = { ...this.answers, ...answers };
   }
 
   async writing() {
