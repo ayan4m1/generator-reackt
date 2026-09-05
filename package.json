@@ -26,7 +26,7 @@
     "prepare": "husky",
     "prepack": "rollup -c",
     "build": "rollup -c",
-    "test": "rollup -c && node --test \"test/**/*.test.ts\""
+    "test": "rollup -c && node --experimental-test-coverage --test \"test/**/*.test.ts\""
   },
   "engines": {
     "node": ">=22"
