@@ -23,12 +23,29 @@ const appTypes = lf(
   )
 ).replace(/^<%.*%>\n/gm, '');
 
+// the exact root files the app generator emits, so a change to either side of
+// the registration fails these tests rather than silently breaking the wiring
+const template = (name: string) =>
+  lf(
+    readFileSync(
+      fileURLToPath(
+        new URL(`../templates/app/src/${name}/index.ts`, import.meta.url)
+      ),
+      'utf8'
+    )
+  );
+
+const appReducers = template('reducers');
+const appSagas = template('sagas');
+
 type RunOptions = {
   name?: string;
   directoryMode?: 'dir' | 'file';
   flags?: Record<string, boolean>;
   config?: Record<string, unknown>;
   types?: string | null;
+  reducers?: string | null;
+  sagas?: string | null;
 };
 
 const run = ({
@@ -36,7 +53,9 @@ const run = ({
   directoryMode = 'file',
   flags = {},
   config = { testFramework: 'rtl' },
-  types = appTypes
+  types = appTypes,
+  reducers = appReducers,
+  sagas = appSagas
 }: RunOptions = {}): Promise<RunResult> =>
   helpers
     .run(generator)
@@ -49,10 +68,33 @@ const run = ({
       ...flags
     })
     .withLocalConfig(config)
-    .withFiles(types === null ? {} : { 'src/types/index.ts': types });
+    .withFiles({
+      ...(types === null ? {} : { 'src/types/index.ts': types }),
+      ...(reducers === null ? {} : { 'src/reducers/index.ts': reducers }),
+      ...(sagas === null ? {} : { 'src/sagas/index.ts': sagas })
+    });
 
-const readTypes = (result: RunResult) =>
-  lf(readFileSync(`${result.cwd}/src/types/index.ts`, 'utf8'));
+const read = (result: RunResult, path: string) =>
+  lf(readFileSync(`${result.cwd}/${path}`, 'utf8'));
+
+const readTypes = (result: RunResult) => read(result, 'src/types/index.ts');
+const readReducers = (result: RunResult) =>
+  read(result, 'src/reducers/index.ts');
+const readSagas = (result: RunResult) => read(result, 'src/sagas/index.ts');
+
+// every file the generator edits in place has to come back out in the style the
+// project already uses, which is the one thing ts-morph will not guarantee
+const assertProjectStyle = async (contents: string) => {
+  const { format, resolveConfig } = await import('prettier');
+  const config = await resolveConfig(
+    fileURLToPath(new URL('../.prettierrc', import.meta.url))
+  );
+
+  assert.equal(
+    contents,
+    await format(contents, { ...config, parser: 'typescript' })
+  );
+};
 
 describe('reackt:module', () => {
   describe('file mode', () => {
@@ -193,16 +235,124 @@ describe('reackt:module', () => {
 
     it('produces a types file matching the project code style', async () => {
       const result = await run();
-      const { format, resolveConfig } = await import('prettier');
-      const config = await resolveConfig(
-        fileURLToPath(new URL('../.prettierrc', import.meta.url))
-      );
-      const types = readTypes(result);
 
-      assert.equal(
-        types,
-        await format(types, { ...config, parser: 'typescript' })
+      await assertProjectStyle(readTypes(result));
+    });
+  });
+
+  describe('the root reducer', () => {
+    it('imports the module reducer under the module name', async () => {
+      const result = await run();
+
+      result.assertFileContent(
+        'src/reducers/index.ts',
+        "import { reducer as cart } from './cart';"
       );
+    });
+
+    it('adds the slice without dropping the existing ones', async () => {
+      const result = await run();
+      const combined = [
+        'export default combineReducers({',
+        '  application,',
+        '  cart',
+        '});'
+      ].join('\n');
+
+      assert.ok(readReducers(result).includes(combined), readReducers(result));
+    });
+
+    it('resolves a directory module through its index', async () => {
+      const result = await run({ directoryMode: 'dir' });
+
+      result.assertFileContent('src/reducers/index.ts', "from './cart'");
+    });
+
+    it('is left alone when the project turned the reducer down', async () => {
+      const result = await run({ flags: { 'flags.createReducer': false } });
+
+      assert.equal(readReducers(result), appReducers);
+    });
+
+    it('does not register the same module twice', async () => {
+      const once = await run();
+      const registered = readReducers(once);
+
+      const twice = await run({ reducers: registered });
+
+      assert.equal(readReducers(twice), registered);
+    });
+
+    it('still writes the module when the root reducer is missing', async () => {
+      const result = await run({ reducers: null });
+
+      result.assertFile('src/reducers/cart.ts');
+      result.assertNoFile('src/reducers/index.ts');
+    });
+
+    it('leaves a root reducer it does not recognize alone', async () => {
+      const unrecognized = 'export const reducers = {};\n';
+      const result = await run({ reducers: unrecognized });
+
+      result.assertFile('src/reducers/cart.ts');
+      assert.equal(readReducers(result), unrecognized);
+    });
+
+    it('produces a file matching the project code style', async () => {
+      const result = await run();
+
+      await assertProjectStyle(readReducers(result));
+    });
+  });
+
+  describe('the root saga', () => {
+    it('imports the module saga', async () => {
+      const result = await run();
+
+      result.assertFileContent(
+        'src/sagas/index.ts',
+        "import cart from './cart';"
+      );
+    });
+
+    it('forks it alongside the existing ones', async () => {
+      const result = await run();
+      const body = [
+        'export default function* saga() {',
+        '  yield fork(application);',
+        '  yield fork(cart);',
+        '}'
+      ].join('\n');
+
+      assert.ok(readSagas(result).includes(body), readSagas(result));
+    });
+
+    it('is left alone when the project turned the saga down', async () => {
+      const result = await run({ flags: { 'flags.createSaga': false } });
+
+      assert.equal(readSagas(result), appSagas);
+    });
+
+    it('does not register the same module twice', async () => {
+      const once = await run();
+      const registered = readSagas(once);
+
+      const twice = await run({ sagas: registered });
+
+      assert.equal(readSagas(twice), registered);
+    });
+
+    it('still writes the module when the root saga is missing', async () => {
+      const result = await run({ sagas: null });
+
+      result.assertFile('src/sagas/cart.ts');
+      result.assertNoFile('src/sagas/index.ts');
+    });
+
+    it('produces a file matching the project code style', async () => {
+      const result = await run();
+
+      await assertProjectStyle(readSagas(result));
     });
   });
 

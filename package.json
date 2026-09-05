@@ -45,6 +45,7 @@
     "mem-fs": "^4.0.0",
     "mkdirp": "^3.0.1",
     "spdx-license-ids": "^3.0.23",
+    "ts-morph": "^28.0.0",
     "yeoman-generator": "^8.3.0",
     "yeoman-stylelint": "^1.0.0"
   },
@@ -57,7 +58,7 @@
     "@types/node": "24.13.3",
     "@types/rollup-plugin-auto-external": "^2",
     "@types/spdx-license-ids": "^3.0.0",
-    "@yeoman/adapter": "^5.0.0",
+    "@yeoman/adapter": "^4.0.2",
     "@yeoman/types": "^1.1.1",
     "auto-changelog": "^2.6.0",
     "eslint": "^9.39.5",

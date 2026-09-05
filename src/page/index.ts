@@ -1,5 +1,6 @@
 import { src } from '../util/fs';
 import BaseGenerator from '../util/generator';
+import { registerRoute } from '../util/ast';
 import { TestFrameworks } from '../types';
 
 export default class extends BaseGenerator {
@@ -17,45 +18,6 @@ export default class extends BaseGenerator {
 
   #addStorybook() {
     return this.config.get('flags.addStorybook') as boolean | undefined;
-  }
-
-  // a page is only reachable once it is in the route table, and the nav is
-  // derived from that same table
-  #registerRoute(name: string, url: string) {
-    const routesPath = this.destinationPath(src('routes.tsx'));
-
-    if (!this.fs.exists(routesPath)) {
-      this.log('WARNING: src/routes.tsx is missing, skipping route');
-      return;
-    }
-
-    const contents = this.fs.read(routesPath);
-
-    if (contents.includes(`./pages/${name}`)) {
-      return;
-    }
-
-    const anchor = 'export const routes: AppRoute[] = [';
-
-    if (!contents.includes(anchor)) {
-      this.log('WARNING: could not find the route table, skipping route');
-      return;
-    }
-
-    this.fs.write(
-      routesPath,
-      contents.replace(
-        anchor,
-        [
-          anchor,
-          '  {',
-          `    path: '${url}',`,
-          `    handle: { title: '${name}' },`,
-          `    lazy: () => import(\`./pages/${name}\`)`,
-          '  },'
-        ].join('\n')
-      )
-    );
   }
 
   async prompting() {
@@ -148,6 +110,8 @@ export default class extends BaseGenerator {
       return;
     }
 
-    this.#registerRoute(name, routePath);
+    this.editSource(src('routes.tsx'), 'the route table', (contents) =>
+      registerRoute(contents, name, routePath)
+    );
   }
 }

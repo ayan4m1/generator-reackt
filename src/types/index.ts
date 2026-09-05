@@ -12,6 +12,14 @@ export interface FS {
   resolve: (...paths: string[]) => string;
 }
 
+// an edit either rewrites the file, finds its work already done, or does not
+// recognize the shape it was pointed at - only the last one is worth warning about
+export type SourceEditStatus = 'updated' | 'unchanged' | 'unrecognized';
+
+export type SourceEdit =
+  | { status: 'updated'; contents: string }
+  | { status: 'unchanged' | 'unrecognized' };
+
 export type ModuleAnswers = {
   directoryMode?: string;
   styleFramework?: string;

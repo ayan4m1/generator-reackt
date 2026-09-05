@@ -208,8 +208,14 @@ describe('reackt:page', () => {
       result.assertNoFile('src/routes.tsx');
     });
 
-    it('still writes the page when the anchor is missing', async () => {
-      const unrecognized = 'export const routes = [];\n';
+    it('registers the route without the AppRoute annotation', async () => {
+      const result = await run({ routes: 'export const routes = [];\n' });
+
+      result.assertFileContent('src/routes.tsx', "path: 'about',");
+    });
+
+    it('leaves a route table it does not recognize alone', async () => {
+      const unrecognized = 'export const pages = [];\n';
       const result = await run({ routes: unrecognized });
 
       result.assertFile('src/pages/About.tsx');
