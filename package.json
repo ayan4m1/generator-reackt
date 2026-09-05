@@ -25,7 +25,8 @@
     "version": "auto-changelog -l false -p --hide-credit && git add CHANGELOG.md",
     "prepare": "husky",
     "prepack": "rollup -c",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "test": "rollup -c && node --test \"test/**/*.test.ts\""
   },
   "engines": {
     "node": ">=22"
@@ -40,6 +41,7 @@
     "date-fns": "^3.6.0",
     "gulp-if": "^3.0.0",
     "gulp-prettier": "^6.0.0",
+    "jsonfile": "^6.2.1",
     "mem-fs": "^4.0.0",
     "mkdirp": "^3.0.1",
     "spdx-license-ids": "^3.0.23",
@@ -51,10 +53,11 @@
     "@rollup/plugin-terser": "^1.0.0",
     "@rollup/plugin-typescript": "^12.3.0",
     "@types/gulp-if": "^3.0.5",
-    "@types/jest": "^30.0.0",
+    "@types/jsonfile": "^6",
     "@types/node": "24.13.3",
     "@types/rollup-plugin-auto-external": "^2",
     "@types/spdx-license-ids": "^3.0.0",
+    "@yeoman/adapter": "^5.0.0",
     "@yeoman/types": "^1.1.1",
     "auto-changelog": "^2.6.0",
     "eslint": "^9.39.5",
@@ -75,7 +78,9 @@
     "stylelint-config-recommended": "^18.0.0",
     "tslib": "^2.8.1",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.68.0"
+    "typescript-eslint": "^8.68.0",
+    "yeoman-environment": "^6.3.0",
+    "yeoman-test": "^11.7.0"
   },
   "packageManager": "yarn@4.18.0"
 }

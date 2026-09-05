@@ -2,8 +2,7 @@
   "compilerOptions": {
     "module": "esnext",
     "moduleResolution": "bundler",
-    "rootDir": ".",
-    "types": ["jest"]
+    "rootDir": "."
   },
   "exclude": ["templates/**/*"]
 }
