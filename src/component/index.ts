@@ -61,6 +61,12 @@ export default class extends BaseGenerator {
       flags,
       component: { name }
     } = this.answers;
+
+    if (!name) {
+      this.log('ERROR: No component name provided!');
+      return;
+    }
+
     const fileName = src('components', `${name}.tsx`);
     const testName = src('components', `${name}.test.tsx`);
 
