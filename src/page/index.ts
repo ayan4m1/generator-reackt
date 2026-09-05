@@ -108,13 +108,18 @@ export default class extends BaseGenerator {
   async writing() {
     const {
       flags,
-      page: { name, url }
+      page: { name: pageName, url }
     } = this.answers;
+    const name = (pageName ?? '').trim();
 
     if (!name) {
       this.log('ERROR: No page name provided!');
       return;
     }
+
+    // the templates render page.name, so they have to see the same value the
+    // file names are built from
+    this.answers.page.name = name;
 
     this.log(`Creating ${name} page`);
     this.fileSystem.copyTemplate('index.tsx', src('pages', `${name}.tsx`));
