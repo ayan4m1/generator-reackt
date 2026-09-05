@@ -67,14 +67,14 @@ export default class extends BaseGenerator {
         message: 'Choose a way of structuring the module.',
         choices: [
           {
-            name: 'Create a directory with the module name and an index.js file inside that.',
-            value: 'dir',
-            short: 'Directory'
-          },
-          {
             name: 'Create a file with the module name.',
             value: 'file',
             short: 'File'
+          },
+          {
+            name: 'Create a directory with the module name and an index.ts file inside that.',
+            value: 'dir',
+            short: 'Directory'
           }
         ]
       },
