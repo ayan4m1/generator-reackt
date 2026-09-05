@@ -292,7 +292,8 @@ export default class extends BaseGenerator {
         type: 'input',
         name: 'deploy.domain',
         message: 'Hostname to use',
-        when: (answers: ModuleAnswers) => answers.flags.addCnamePlugin
+        when: (answers: Partial<ModuleAnswers>) =>
+          answers?.flags?.addCnamePlugin
       },
       {
         type: 'confirm',
