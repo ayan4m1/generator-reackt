@@ -2,7 +2,7 @@ import { join } from 'path';
 
 import { src } from '../util/fs';
 import BaseGenerator from '../util/generator';
-import { ModuleAnswers, TestFrameworks } from '../types';
+import { TestFrameworks } from '../types';
 
 export default class extends BaseGenerator {
   protected templateDirectory() {
@@ -55,7 +55,7 @@ export default class extends BaseGenerator {
     const testFramework = this.config.get('testFramework') as
       string | undefined;
 
-    this.answers = await this.prompt<ModuleAnswers>([
+    const answers = await this.prompt([
       {
         type: 'input',
         name: 'module.name',
@@ -104,6 +104,7 @@ export default class extends BaseGenerator {
         when: () => testFramework !== TestFrameworks.None
       }
     ]);
+    this.answers = { ...this.answers, ...answers };
   }
 
   async writing() {

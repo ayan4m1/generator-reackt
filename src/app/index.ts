@@ -228,7 +228,7 @@ export default class extends BaseGenerator {
       this.git.email()
     ]);
 
-    this.answers = await this.prompt<ModuleAnswers>([
+    const answers = await this.prompt([
       {
         type: 'input',
         name: 'package.name',
@@ -326,6 +326,7 @@ export default class extends BaseGenerator {
         default: false
       }
     ]);
+    this.answers = { ...this.answers, ...answers };
   }
 
   async writing() {

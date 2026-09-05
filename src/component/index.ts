@@ -1,6 +1,6 @@
 import { src } from '../util/fs';
 import BaseGenerator from '../util/generator';
-import { ModuleAnswers, TestFrameworks } from '../types';
+import { TestFrameworks } from '../types';
 
 export default class extends BaseGenerator {
   protected templateDirectory() {
@@ -26,7 +26,7 @@ export default class extends BaseGenerator {
     const addRedux = this.#addRedus();
     const addStorybook = this.#addStorybook();
 
-    const answers = await this.prompt<ModuleAnswers>([
+    const answers = await this.prompt([
       {
         type: 'input',
         name: 'component.name',

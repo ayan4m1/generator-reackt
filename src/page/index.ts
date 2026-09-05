@@ -1,6 +1,6 @@
 import { src } from '../util/fs';
 import BaseGenerator from '../util/generator';
-import { ModuleAnswers, TestFrameworks } from '../types';
+import { TestFrameworks } from '../types';
 
 export default class extends BaseGenerator {
   protected templateDirectory(): string {
@@ -68,7 +68,7 @@ export default class extends BaseGenerator {
     // prompt() only returns the questions it actually asked, so merge - a run
     // where every flag prompt is skipped would otherwise leave the templates
     // without a flags object at all
-    const answers = await this.prompt<ModuleAnswers>([
+    const answers = await this.prompt([
       {
         type: 'input',
         name: 'page.name',
@@ -101,7 +101,6 @@ export default class extends BaseGenerator {
         when: () => testFramework !== TestFrameworks.None
       }
     ]);
-
     this.answers = { ...this.answers, ...answers };
   }
 
