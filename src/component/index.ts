@@ -11,10 +11,20 @@ export default class extends BaseGenerator {
     return this.config.get('testFramework') as string | undefined;
   }
 
+  #addRedus() {
+    return this.config.get('flags.addRedux') as boolean | undefined;
+  }
+
+  #addStorybook() {
+    return this.config.get('flags.addStorybook') as boolean | undefined;
+  }
+
   async prompting() {
     // an unset value means the project predates this key, so still offer tests;
     // an explicit TestFrameworks.None means the app opted out of testing
     const testFramework = this.#testFramework();
+    const addRedux = this.#addRedus();
+    const addStorybook = this.#addStorybook();
 
     this.answers = await this.prompt<ModuleAnswers>([
       {
@@ -26,13 +36,15 @@ export default class extends BaseGenerator {
         type: 'confirm',
         name: 'flags.addRedux',
         message: 'Connect this component to the Redux store?',
-        default: false
+        default: true,
+        when: () => addRedux
       },
       {
         type: 'confirm',
         name: 'flags.addStorybook',
         message: 'Add a Storybook story?',
-        default: false
+        default: true,
+        when: () => addStorybook
       },
       {
         type: 'confirm',

@@ -337,6 +337,8 @@ export default class extends BaseGenerator {
 
     // the component and module subgenerators read this back out of .yo-rc.json
     this.config.set('testFramework', testFramework);
+    this.config.set('flags.addRedux', flags.addRedux);
+    this.config.set('flags.addStorybook', flags.addStorybook);
 
     let licenseText = 'Place your license here.\n';
 
