@@ -137,7 +137,7 @@ export default class extends BaseGenerator {
 
     // child routes of the '/' route are relative, and the index route already
     // owns the empty path
-    const routePath = (url ?? '').replace(/^\/+|\/+$/g, '');
+    const routePath = (url ?? '').trim().replace(/^\/+|\/+$/g, '');
 
     if (!routePath) {
       this.log('WARNING: No page URL provided, skipping route');
