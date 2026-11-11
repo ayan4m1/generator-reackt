@@ -143,6 +143,7 @@ const packages: Record<string, string[]> = {
     'stylelint',
     'terser-webpack-plugin',
     'ts-loader',
+    'ts-node',
     'typescript@6',
     'typescript-eslint',
     'webpack-cli',
