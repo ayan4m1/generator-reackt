@@ -91,6 +91,7 @@ const packages: Record<string, string[]> = {
     'reselect',
     'classnames'
   ],
+  cname: ['cname-webpack-plugin'],
   storybook: [
     'storybook@10',
     '@storybook/react-vite',
@@ -481,6 +482,10 @@ export default class extends BaseGenerator {
 
     if (flags.addEsDoc) {
       main.push(...packages.esdoc);
+    }
+
+    if (flags.addCnamePlugin) {
+      dev.push(...packages.cname);
     }
 
     this.log(
