@@ -374,7 +374,7 @@ export default class extends BaseGenerator {
 
     // these are underscored to prevent them being picked up by ESLint
     this.fileSystem.copyTemplate('_package.json', 'package.json');
-    this.fileSystem.copyTemplate('_eslint.config.mjs', 'eslint.config.mjs');
+    this.fileSystem.copyTemplate('_eslint.config.ts', 'eslint.config.ts');
     this.fileSystem.copyTemplate('webpack.config.nts', 'webpack.config.ts');
 
     if (this.answers.styleFramework !== 'materialUi') {
